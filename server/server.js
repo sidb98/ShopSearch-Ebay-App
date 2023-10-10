@@ -1,10 +1,12 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import axios from 'axios';
+import cors from 'cors';
 import OAuthToken from './ebay_oauth_token.js';
 
 
 const app = express();
+app.use(cors());
 
 dotenv.config();
 const ebayAppId = process.env.EBAY_APP_ID;
@@ -14,12 +16,8 @@ const ebayCertId = process.env.EBAY_CERT_ID;
 
 const PORT = process.env.PORT || 5000;
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-}
-);
 
-
+// Search for all items
 app.get('/search', async (req, res) => {
     let query = req.query;
 
@@ -32,7 +30,49 @@ app.get('/search', async (req, res) => {
         'paginationInput.entriesPerPage': '50',
         'outputSelector(0)': 'SellerInfo',
         'outputSelector(1)': 'StoreInfo',
+        'keywords': query.keyword,
+        'buyerPostalCode': query.zipcode,
+        'itemFilter(0).name': 'MaxDistance',
+        'itemFilter(0).value': query.distance,
     };
+
+    let itemFilterIdx = 1;
+
+
+    // TODO: Fix cateogryId
+    if (query.category !== 'all') reqParams['categoryId'] = query.category;
+
+    if (query.localpickup) {
+        reqParams[`itemFilter(${itemFilterIdx}).name`] = 'LocalPickupOnly';
+        reqParams[`itemFilter(${itemFilterIdx}).value(${itemFilterIdx})`] = 'true';
+        itemFilterIdx++;
+    }
+    if (query.free) {
+        reqParams[`itemFilter(${itemFilterIdx}).name`] = 'FreeShippingOnly';
+        reqParams[`itemFilter(${itemFilterIdx}).value(${itemFilterIdx})`] = 'true';
+        itemFilterIdx++;
+    }
+
+    if (query.new || query.used || query.unspecified) {
+        let itemFilterConditionIdx = 0;
+        reqParams[`itemFilter(${itemFilterIdx}).name`] = 'Condition';
+        if (query.new) {
+            reqParams[`itemFilter(${itemFilterIdx}).value(${itemFilterConditionIdx})`] = 'New';
+            itemFilterConditionIdx++;
+        }
+        if (query.used) {
+            reqParams[`itemFilter(${itemFilterIdx}).value(${itemFilterConditionIdx})`] = 'Used';
+            itemFilterConditionIdx++;
+        }
+        if (query.unspecified) {
+            reqParams[`itemFilter(${itemFilterIdx}).value(${itemFilterConditionIdx})`] = 'Unspecified';
+            itemFilterConditionIdx++;
+        }
+        itemFilterIdx++;
+    }
+    console.log('reqParams')
+    console.log(reqParams);
+
 
     Object.keys(query).forEach(key => {
         reqParams[key] = query[key];
@@ -50,6 +90,17 @@ app.get('/search', async (req, res) => {
             singleItem.price = item.sellingStatus[0].currentPrice[0].__value__;
             singleItem.shipping = item.shippingInfo[0].shippingServiceCost[0].__value__;
             singleItem.zip = item.postalCode && item.postalCode[0] ? item.postalCode[0] : 'N/A';               // from https://stackoverflow.com/questions/57333535/add-a-default-value-for-a-json-property-when-it-doesnt-exist-in-javascript
+
+            let sellerInfo = {}
+            sellerInfo.feedbackScore = item.sellerInfo[0].feedbackScore[0];
+            sellerInfo.popularity = item.sellerInfo[0].positiveFeedbackPercent[0];
+            sellerInfo.feedbackRating = item.sellerInfo[0].feedbackRatingStar[0];
+            sellerInfo.topRated = item.sellerInfo[0].topRatedSeller[0];
+
+            // From https://stackoverflow.com/questions/48514504/how-to-deal-with-json-when-a-key-is-missing-sometimes
+            sellerInfo.storeName = (item.storeInfo && item.storeInfo[0] && item.storeInfo[0].storeName) ? item.storeInfo[0].storeName[0] : 'N/A';
+            sellerInfo.buyProductAt = (item.storeInfo && item.storeInfo[0] && item.storeInfo[0].storeURL) ? item.storeInfo[0].storeURL[0] : 'N/A';
+            singleItem.sellerInfo = sellerInfo;
 
             if (singleItem.shipping === '0.0')
                 singleItem.shipping = 'Free Shipping';
@@ -178,6 +229,7 @@ app.get('/similarItems/:itemId', async (req, res) => {
 }
 );
 
+app.get('/')
 
 app.listen(PORT, () => {
     console.log('Server listening on port 5000!');
