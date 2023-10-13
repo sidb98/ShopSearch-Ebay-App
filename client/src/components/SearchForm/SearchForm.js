@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-
 import axios from "axios";
+import SearchItemCard from "../SearchItemCard";
 
-function SearchhtmlForm() {
+export default function SearchhtmlForm() {
   const ipinfoToken = process.env.REACT_APP_IPINFO_TOKEN;
   const geonameUsername = process.env.REACT_APP_GEONAME_USERNAME;
 
@@ -21,6 +21,7 @@ function SearchhtmlForm() {
 
   const [formData, setFormData] = useState(initialFormData);
   const [showKeywordError, setShowKeywordError] = useState(false);
+  const [items, setItems] = useState([]);  
 
   const handleCategoryChange = (event) => {
     const { name, value } = event.target;
@@ -48,6 +49,12 @@ function SearchhtmlForm() {
     setFormData((formData) => ({ ...formData, [name]: value }));
   };
 
+  const handleClear = () => {
+    setFormData(initialFormData);
+    setShowKeywordError(false);
+    setItems([]);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     // console.log(formData);
@@ -69,7 +76,7 @@ function SearchhtmlForm() {
       try {
         const response = await axios.get(url);
         zipcode = response.data.postal;
-        console.log(zipcode);
+        // console.log(zipcode);
       } catch (error) {
         console.log(error);
       }
@@ -91,15 +98,16 @@ function SearchhtmlForm() {
     if (formData.LocalPickup) urlJson["localpickup"] = formData.LocalPickup;
     if (formData.FreeShipping) urlJson["freeshipping"] = formData.FreeShipping;
 
-    console.log(urlJson);
+    // console.log(urlJson);
     const searchQuery = new URLSearchParams(urlJson).toString();
     url += searchQuery;
-    console.log(url);
+    // console.log(url);
 
     // Send request
     try {
       const response = await axios.get(url);
       console.log(response.data);
+      setItems(response.data.items);
     } catch (error) {
       console.log(error);
     }
@@ -247,17 +255,13 @@ function SearchhtmlForm() {
 
           <button
             type="reset"
-            onClick={() => {
-              setFormData(initialFormData);
-              setShowKeywordError(false);
-            }}
+            onClick={handleClear}
           >
             Clear
           </button>
         </div>
       </form>
+      <SearchItemCard items={items} />{" "}
     </div>
   );
 }
-
-export default SearchhtmlForm;

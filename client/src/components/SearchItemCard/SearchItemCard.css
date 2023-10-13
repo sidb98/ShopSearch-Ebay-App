@@ -1,0 +1,8 @@
+/* SearchItemCard.css */
+.wishlist-button {
+  background-image: url("..//../assest/add-to-cart.png");
+}
+
+.wishlist-button-active {
+  background-image:url("../../assest/remove-from-cart.png") ;
+}
