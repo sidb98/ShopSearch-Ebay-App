@@ -4,7 +4,7 @@ import SearchItemCard from "../SearchItemCard";
 
 export default function SearchhtmlForm() {
   const ipinfoToken = process.env.REACT_APP_IPINFO_TOKEN;
-  const geonameUsername = process.env.REACT_APP_GEONAME_USERNAME;
+  // const geonameUsername = process.env.REACT_APP_GEONAME_USERNAME;
 
   const initialFormData = {
     Keyword: "",
@@ -25,19 +25,16 @@ export default function SearchhtmlForm() {
 
   const handleCategoryChange = (event) => {
     const { name, value } = event.target;
-    // console.log(name, value);
     setFormData((formData) => ({ ...formData, [name]: value }));
   };
 
   const handleCheckboxChange = (event) => {
     const { name } = event.target;
-    // console.log(name, value);
     setFormData((formData) => ({ ...formData, [name]: !formData[name] }));
   };
 
   const handleTextboxChange = (event) => {
     const { name, value } = event.target;
-    // console.log(name, value);
     setFormData((formData) => ({ ...formData, [name]: value }));
     if (name === "Zipcode") {
     }
@@ -45,7 +42,6 @@ export default function SearchhtmlForm() {
 
   const handleRadioChange = (event) => {
     const { name, value } = event.target;
-    // console.log(name, value);
     setFormData((formData) => ({ ...formData, [name]: value }));
   };
 
@@ -57,7 +53,7 @@ export default function SearchhtmlForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // console.log(formData);
+    
 
     // Check if keyword is empty
     if (formData.Keyword === "") {

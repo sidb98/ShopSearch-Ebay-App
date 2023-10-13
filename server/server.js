@@ -29,35 +29,47 @@ async function connectToMongo() {
 
 connectToMongo();
 
-
 app.post("/favorite", async (req, res) => {
-    try {
-        const {_id, image, title, price, shipping} = req.body;
-        const newFavourite = new favouriteModel({_id, image, title, price, shipping});
-        await newFavourite.save();
-        res.status(201).json(newFavourite);
-
-
-    } catch(err) {
-        console.error(err);
-        res.status(500).json({message: err.message});
-    }
-
+  try {
+    const { _id, image, title, price, shipping } = req.body;
+    const newFavourite = new favouriteModel({
+      _id,
+      image,
+      title,
+      price,
+      shipping,
+    });
+    await newFavourite.save();
+    res.status(201).json(newFavourite);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
 });
 
-
 app.delete("/favorite/:id", async (req, res) => {
-    try {
-        const {id} = req.params;
-        await favouriteModel.findByIdAndDelete(id);
-        res.status(200).json({message: "Successfully deleted"});
-    } catch(err) {
-        console.error(err);
-        res.status(500).json({message: err.message});
-    }
-}
-);
+  try {
+    const { id } = req.params;
+    await favouriteModel.findByIdAndDelete(id);
+    res.status(200).json({ message: "Successfully deleted" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+});
 
+app.get("/getKeys", async (req, res) => {
+  try {
+    const favoriteIds = await favouriteModel.find({}, "_id");
+    // console.log(favoriteIds);
+    const ids = favoriteIds.map((item) => item._id);
+
+    res.status(200).json(ids);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+});
 
 // Search for all items
 app.get("/search", async (req, res) => {
@@ -117,8 +129,8 @@ app.get("/search", async (req, res) => {
     }
     itemFilterIdx++;
   }
-//   console.log("reqParams");
-//   console.log(reqParams);
+  //   console.log("reqParams");
+  //   console.log(reqParams);
 
   Object.keys(query).forEach((key) => {
     reqParams[key] = query[key];
