@@ -60,11 +60,16 @@ app.delete("/favorite/:id", async (req, res) => {
 
 app.get("/getKeys", async (req, res) => {
   try {
-    const favoriteIds = await favouriteModel.find({}, "_id");
-    // console.log(favoriteIds);
-    const ids = favoriteIds.map((item) => item._id);
+    const favoriteItems = await favouriteModel.find({}, "_id image title price shipping");
+    const items = favoriteItems.map((item) => ({
+      itemId: item._id,
+      image: item.image,
+      title: item.title,
+      price: item.price,
+      shipping: item.shipping,
+    }));
 
-    res.status(200).json(ids);
+    res.status(200).json(items);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: err.message });

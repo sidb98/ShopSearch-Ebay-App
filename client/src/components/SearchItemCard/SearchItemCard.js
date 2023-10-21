@@ -1,45 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./SearchItemCard.css";
-import axios from "axios";
+import { useWishlist } from "../WishlistContext";
 
 const SearchItemCard = ({ items }) => {
   const itemsPerPage = 10;
-  const [wishlist, setWishlist] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const { wishlist, addItemToWishlist, removeItemFromWishlist } = useWishlist();
 
-  const isItemInWishlist = (itemId) => wishlist.includes(itemId);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/getKeys")
-      .then((response) => {
-        setWishlist(response.data);
-      })
-      .catch((error) => {
-        console.log("Could not retrieve keys from the database for wishlist");
-        console.log(error);
-      });
-  }, []);
+  const isItemInWishlist = (itemId) =>
+    wishlist.some((item) => item.itemId === itemId);
 
   const handleWishlistClick = async (item) => {
     const itemId = item.itemId;
 
     try {
       if (isItemInWishlist(itemId)) {
-        await axios.delete(`http://localhost:5000/favorite/${itemId}`);
-        setWishlist((prevWishlist) =>
-          prevWishlist.filter((wishlistItemId) => wishlistItemId !== itemId)
-        );
+        removeItemFromWishlist(itemId);
       } else {
-        await axios.post("http://localhost:5000/favorite", {
-          _id: itemId,
-          image: item.image,
-          title: item.title,
-          price: item.price,
-          shipping: item.shipping,
-        });
-
-        setWishlist((prevWishlist) => [...prevWishlist, itemId]);
+        addItemToWishlist(item);
       }
     } catch (error) {
       console.log(error.response);
@@ -63,17 +41,19 @@ const SearchItemCard = ({ items }) => {
   return (
     <div>
       <table className="item-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Image</th>
-            <th>Title</th>
-            <th>Price</th>
-            <th>Shipping</th>
-            <th>Zipcode</th>
-            <th>Wishlist</th>
-          </tr>
-        </thead>
+        {items.length > 0 && (
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Image</th>
+              <th>Title</th>
+              <th>Price</th>
+              <th>Shipping</th>
+              <th>Zipcode</th>
+              <th>Wishlist</th>
+            </tr>
+          </thead>
+        )}
         <tbody>
           {currentItems.map((item, index) => (
             <tr key={item.itemId}>
@@ -104,6 +84,7 @@ const SearchItemCard = ({ items }) => {
         </tbody>
       </table>
       {items.length > 0 && (
+        // TODO: Highlight the current page
         <div className="pagination">
           <button
             onClick={() => handlePageChange(currentPage - 1)}

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import SearchItemCard from "../SearchItemCard";
+import WishlistCard from "../WishlistCard";
 
 export default function SearchhtmlForm() {
   const ipinfoToken = process.env.REACT_APP_IPINFO_TOKEN;
-  // const geonameUsername = process.env.REACT_APP_GEONAME_USERNAME;
+  // const geonameUsername = process.env.REACT_APP_GEONAME_USERNAME;   TODO - implement geoname api
 
   const initialFormData = {
     Keyword: "",
@@ -21,7 +22,8 @@ export default function SearchhtmlForm() {
 
   const [formData, setFormData] = useState(initialFormData);
   const [showKeywordError, setShowKeywordError] = useState(false);
-  const [items, setItems] = useState([]);  
+  const [items, setItems] = useState([]);
+  const [view, setView] = useState("Results");
 
   const handleCategoryChange = (event) => {
     const { name, value } = event.target;
@@ -49,11 +51,11 @@ export default function SearchhtmlForm() {
     setFormData(initialFormData);
     setShowKeywordError(false);
     setItems([]);
+    setView("Results");
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
 
     // Check if keyword is empty
     if (formData.Keyword === "") {
@@ -107,6 +109,22 @@ export default function SearchhtmlForm() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const renderResultsView = () => {
+    return (
+      <div>
+        <SearchItemCard items={items} />
+      </div>
+    );
+  };
+
+  const renderWishlistView = () => {
+    return (
+      <div>
+        <WishlistCard />
+      </div>
+    );
   };
 
   return (
@@ -249,15 +267,16 @@ export default function SearchhtmlForm() {
             Search
           </button>
 
-          <button
-            type="reset"
-            onClick={handleClear}
-          >
+          <button type="reset" onClick={handleClear}>
             Clear
           </button>
         </div>
       </form>
-      <SearchItemCard items={items} />{" "}
+      <div>
+        <button onClick={() => setView("Results")}>Results</button>
+        <button onClick={() => setView("Wishlist")}>Wishlist</button>
+      </div>
+      {view === "Results" ? renderResultsView() : renderWishlistView()}
     </div>
   );
 }
