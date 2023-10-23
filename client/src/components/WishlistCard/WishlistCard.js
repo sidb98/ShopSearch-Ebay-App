@@ -27,7 +27,7 @@ export default function WishlistCard() {
           </thead>
           <tbody>
             {wishlist.map((item, index) => (
-              <tr key={item._id}>
+              <tr key={item.itemId}>
                 <td>{index + 1}</td>
                 <td>
                   <img src={item.image} alt={item.title} />

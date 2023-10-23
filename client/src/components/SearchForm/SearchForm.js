@@ -25,6 +25,7 @@ export default function SearchhtmlForm() {
   const [items, setItems] = useState([]);
   const [view, setView] = useState("Results");
 
+
   const handleCategoryChange = (event) => {
     const { name, value } = event.target;
     setFormData((formData) => ({ ...formData, [name]: value }));
@@ -56,6 +57,8 @@ export default function SearchhtmlForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setShowKeywordError(false);
+
 
     // Check if keyword is empty
     if (formData.Keyword === "") {
@@ -276,7 +279,8 @@ export default function SearchhtmlForm() {
         <button onClick={() => setView("Results")}>Results</button>
         <button onClick={() => setView("Wishlist")}>Wishlist</button>
       </div>
-      {view === "Results" ? renderResultsView() : renderWishlistView()}
+      {view === "Results" && renderResultsView()}
+      {view === "Wishlist" && renderWishlistView()}
     </div>
   );
 }

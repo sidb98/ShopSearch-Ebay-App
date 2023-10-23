@@ -60,7 +60,10 @@ app.delete("/favorite/:id", async (req, res) => {
 
 app.get("/getKeys", async (req, res) => {
   try {
-    const favoriteItems = await favouriteModel.find({}, "_id image title price shipping");
+    const favoriteItems = await favouriteModel.find(
+      {},
+      "_id image title price shipping"
+    );
     const items = favoriteItems.map((item) => ({
       itemId: item._id,
       image: item.image,
@@ -180,6 +183,16 @@ app.get("/search", async (req, res) => {
 
       if (singleItem.shipping === "") singleItem.shipping = "N/A";
 
+      let shippingInfo = {};
+      shippingInfo.shippingCost = item.shippingInfo[0].shippingServiceCost[0].__value__;
+      shippingInfo.shippingLocation = item.shippingInfo[0].shipToLocations[0];
+      shippingInfo.handlingTime = item.shippingInfo[0].handlingTime[0];
+      shippingInfo.expeditedShipping = item.shippingInfo[0].expeditedShipping[0];
+      shippingInfo.oneDayShipping = item.shippingInfo[0].oneDayShippingAvailable[0];
+      shippingInfo.returnsAccepted = item.returnsAccepted[0];
+
+      singleItem.shippingInfo = shippingInfo;
+
       items.push(singleItem);
     });
     resData.items = items;
@@ -214,20 +227,22 @@ app.get("/singleItem/:itemId", async (req, res) => {
       await axios.get(url, { params: reqParams, headers: headers })
     ).data;
     let resData = {};
-    res.send(resApiData);
+    // res.send(resApiData);
     // Info tab data
     resData.productImg = resApiData.Item.PictureURL;
-    resData.price = resApiData.Item.CurrentPrice.Value;
-    resData.location = resApiData.Item.Location || "";
-    resData.return =
+    resData.Price = resApiData.Item.CurrentPrice.Value;
+    resData.Location = resApiData.Item.Location || "";
+    resData.Return =
       resApiData.Item.ReturnPolicy.ReturnsAccepted ||
       "" + " within " + resApiData.Item.ReturnPolicy.ReturnsWithin ||
       "";
-
+    const itemSpecs = {};
     const itemSpecifics = resApiData.Item?.ItemSpecifics?.NameValueList || [];
     itemSpecifics.forEach((spec) => {
-      resData[spec.Name || ""] = spec.Value?.[0] || "";
+      itemSpecs[spec.Name || ""] = spec.Value?.[0] || "";
     });
+
+    resData.ItemSpecs = itemSpecs;
 
     // Shipping Tab data
 
@@ -272,22 +287,26 @@ app.get("/similarItems/:itemId", async (req, res) => {
       await axios.get(url, { params: reqParams, headers: headers })
     ).data;
     let resData = {};
+    // res.send(resApiData);
+    let items = [];
 
     let itemsList = resApiData.getSimilarItemsResponse.itemRecommendations.item;
 
     itemsList.forEach((item, idx) => {
       let singleItem = {};
+      singleItem.itemId = item.itemId;
       singleItem.title = item.title;
       singleItem.price = item.buyItNowPrice.__value__;
       singleItem.shipping = item.shippingCost.__value__;
+      singleItem.image = item.imageURL;
 
       // "how do i get the value between P and D" prompt (2 lines) . ChatGPT September 25 Version  OpenAI, 7 Oct. 2023, chat.openai.com/chat.
       const match = item.timeLeft.match(/P(\d+)D/);
       singleItem.daysLeft = match ? parseInt(match[1]) : null;
 
-      resData[idx] = singleItem;
+      items.push(singleItem);
     });
-
+    resData.items = items;
     res.send(resData);
   } catch (err) {
     console.log(err);
