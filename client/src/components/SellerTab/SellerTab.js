@@ -16,12 +16,12 @@ export default function SellerTab({ item }) {
         <tr>
             <td colSpan="2" >{item.sellerInfo.storeName}</td>
         </tr>
-        {Object.entries(keyOrder).map(([key, name]) => {
+        {Object.entries(keyOrder).map(([key, name],index) => {
           const value = item.sellerInfo[key];
           if (value !== null) {
             if (key === "buyProductAt") {
               return (
-                <tr key={key}>
+                <tr key={key} className={index % 2 === 0 ? "row-even" : "row-odd"}>
                   <td>{name}</td>
                   <td>
                     <a href={value} target="_blank" rel="noopener noreferrer">
@@ -32,7 +32,7 @@ export default function SellerTab({ item }) {
               );
             } else {
               return (
-                <tr key={key}>
+                <tr key={key}className={index % 2 === 0 ? "row-even" : "row-odd"}>
                   <td>{name}</td>
                   <td>{value}</td>
                 </tr>

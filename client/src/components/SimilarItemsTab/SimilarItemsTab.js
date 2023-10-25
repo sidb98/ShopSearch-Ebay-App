@@ -83,7 +83,7 @@ export default function SimilarItemsTab({ item }) {
         <div className="similar-items">
           {similarItems
             .slice(0, showAllItems ? similarItems.length : 5)
-            .map((item) => (
+            .map((item, index) => (
               <div className="similar-item" key={item.itemId}>
                 <div className="item-image">
                   <img src={item.image} alt={item.title} />

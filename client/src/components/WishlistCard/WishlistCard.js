@@ -49,7 +49,7 @@ export default function WishlistCard() {
           </tbody>
         </table>
       ) : (
-        <p>No records</p>
+        <p className="no-result-message">No records</p>
       )}
     </div>
   );

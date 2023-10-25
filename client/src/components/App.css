@@ -1,0 +1,201 @@
+/* --------------------- */
+/* -------Form---------- */
+/* --------------------- */
+#serch-htmlForm {
+  background-color: #212529;
+  padding: 2rem;
+}
+
+#serch-htmlForm,
+#serch-htmlForm label,
+#serch-htmlForm checkbox,
+#serch-htmlForm distance {
+  color: #ffffff;
+}
+
+#search-htmlForm input[type="text"] {
+  background-color: #ffffff;
+  color: #212529;
+}
+.required-char {
+  color: red; /* Adjust the color as needed for this message */
+}
+
+.text-danger {
+  font-size: 0.8rem;
+}
+.square-checkbox .form-check-input {
+  border-radius: 0; /* Remove border radius */
+}
+
+.btn-search,
+.btn-search:hover,
+.btn-search:disabled {
+  background-color: #f8f9fa;
+  color: black;
+  background-image: url("../assest/search.png");
+  background-repeat: no-repeat;
+  background-position: 5px center;
+  text-indent: 20px;
+  border-color: #212529;
+}
+
+.btn-clear,
+.btn-clear:hover {
+  background-color: #f8f9fa;
+  color: black;
+  background-image: url("../assest/clear-all.png");
+  background-repeat: no-repeat;
+  background-position: 5px center;
+  text-indent: 20px;
+}
+
+.btn-search:hover,
+.btn-clear:hover {
+  background-color: #adafb1;
+  color: #54575a;
+}
+
+.btn-results,
+.btn-results:hover,
+.btn-results:active {
+  background-color: black;
+  color: white;
+}
+
+.no-result-message {
+  margin-top: 1rem;
+  color: #957724;
+  background-color: #fff3cd;
+  padding: 1rem;
+  font-weight: 600;
+}
+
+/* ---------------------*/
+/*----Search Results--- */
+/*----------------------*/
+
+.item-table {
+  margin-top: 1rem;
+  width: 100%;
+  border-collapse: collapse;
+  padding: 10px;
+}
+
+.item-table th,
+.item-table td {
+  padding: 1.3rem;
+}
+
+.number-column {
+  width: 50px;
+}
+.image-column {
+  width: 200px;
+}
+
+.title-column {
+  width: 550px;
+}
+.ellipsis-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px; /* Adjust the maximum width as needed */
+}
+
+.price-column {
+  width: 150px;
+}
+
+.shipping-column {
+  width: 150px;
+}
+
+.zipcode-column {
+  width: 150px;
+}
+
+.wishlist-column {
+  width: 50px;
+}
+
+.row-odd {
+  background-color: #212429;
+  color: #ffffff;
+}
+.row-even {
+  background-color: #2c2f34;
+  color: #ffffff;
+}
+
+.wishlist-button,
+.wishlist-button:hover {
+  background-image: url("../assest/add-to-cart.png");
+  width: 32px;
+  height: 32px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #ffffff;
+  padding: 1.2rem;
+}
+
+.wishlist-button-active,
+.wishlist-button-active:hover {
+  background-image: url("../assest/remove-from-cart.png");
+  width: 32px;
+  height: 32px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #ffffff;
+  padding: 1.2rem;
+}
+
+.pagination {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.pagination .active {
+  background-color: #2b93e0;
+  color: white;
+  border-color: white;
+  border-style: solid;
+}
+
+.pagination .page-button {
+  background-color: #ffffff;
+  color: black;
+  border-color: white;
+  border-style: solid;
+  padding: 0.2rem;
+  margin: 2px;
+}
+
+/*----------------------*/
+/*----Single Item-------*/
+/*----------------------*/
+.facebook-share-button {
+  background-image: url("../assest/facebook.png");
+  width: 32px;
+  height: 32px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.tab-header .tab {
+  padding: 10px 20px; /* Adjust padding as needed */
+  cursor: pointer;
+
+  /* Set the background color for active tabs */
+  &.active {
+    background-color: black; /* Change to your preferred active tab color */
+    color: #fff; /* Text color for active tab */
+  }
+}
+
+
+
+
+
+

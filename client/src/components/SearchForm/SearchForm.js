@@ -25,7 +25,6 @@ export default function SearchhtmlForm() {
   const [items, setItems] = useState([]);
   const [view, setView] = useState("Results");
 
-
   const handleCategoryChange = (event) => {
     const { name, value } = event.target;
     setFormData((formData) => ({ ...formData, [name]: value }));
@@ -58,7 +57,6 @@ export default function SearchhtmlForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setShowKeywordError(false);
-
 
     // Check if keyword is empty
     if (formData.Keyword === "") {
@@ -117,6 +115,7 @@ export default function SearchhtmlForm() {
   const renderResultsView = () => {
     return (
       <div>
+        {!items.length && (<p className="no-result-message">No Results</p>)}
         <SearchItemCard items={items} />
       </div>
     );
@@ -131,153 +130,239 @@ export default function SearchhtmlForm() {
   };
 
   return (
-    <div>
-      <h1>Product Search</h1>
-      <form id="serch-htmlForm" onSubmit={handleSubmit}>
-        <label htmlFor="Keyword" className="tag">
-          Keywords<span className="required-char">*</span>
-        </label>
-        <input
-          type="text"
-          id="Keyword"
-          name="Keyword"
-          autoComplete="on"
-          value={formData.Keyword}
-          onChange={handleTextboxChange}
-          placeholder="Enter Product Name (eg Iphone 8)"
-        />
-        {showKeywordError && <p>Please enter a keyword</p>}
-        <br></br>
-        <label htmlFor="Category" className="tag">
-          Category
-        </label>
-        <select
-          id="Category"
-          name="Category"
-          value={formData.Category}
-          onChange={handleCategoryChange}
-        >
-          <option value="all">All Categories</option>
-          <option value="550">Art</option>
-          <option value="2984">Baby</option>
-          <option value="261186">Books</option>
-          <option value="11450">Clothing, Shoes &amp; Accessories</option>
-          <option value="58058">Computers/Tablets &amp; Networking</option>
-          <option value="21136">Health &amp; Beauty</option>
-          <option value="157003">Music</option>
-          <option value="1249">Video Games &amp; Consoles</option>
-        </select>
-        <br></br>
-        <label className="tag">Condition</label>
-        <input
-          type="checkbox"
-          id="New"
-          name="New"
-          checked={formData.New}
-          onChange={handleCheckboxChange}
-        />{" "}
-        New
-        <input
-          type="checkbox"
-          id="Used"
-          name="Used"
-          checked={formData.Used}
-          onChange={handleCheckboxChange}
-        />{" "}
-        Used
-        <input
-          type="checkbox"
-          id="Unspecified"
-          name="Unspecified"
-          checked={formData.Unspecified}
-          onChange={handleCheckboxChange}
-        />{" "}
-        Unspecified
-        <br></br>
-        <label className="tag">Shipping Options</label>
-        <input
-          type="checkbox"
-          id="LocalPickup"
-          name="LocalPickup"
-          checked={formData.LocalPickup}
-          onChange={handleCheckboxChange}
-        />{" "}
-        Local Pickup
-        <input
-          type="checkbox"
-          id="FreeShipping"
-          name="FreeShipping"
-          checked={formData.FreeShipping}
-          onChange={handleCheckboxChange}
-        />{" "}
-        Free Shipping
-        <br></br>
-        <label htmlFor="Distance" className="tag">
-          Distance(Miles)
-        </label>
-        <input
-          type="number"
-          id="Distance"
-          name="Distance"
-          value={formData.Distance}
-          onChange={handleTextboxChange}
-        ></input>
-        <br></br>
-        <label className="tag">
-          From<span className="required-char">*</span>
-        </label>
-        <div id="location-div">
-          <input
-            type="radio"
-            id="Current-Location-Radio"
-            name="From"
-            value="Current Location"
-            checked={formData.From === "Current Location"}
-            onChange={handleRadioChange}
-          />{" "}
-          'Current Location'
-          <input
-            type="radio"
-            id="Zipcode-Radio"
-            name="From"
-            value="Zipcode"
-            checked={formData.From === "Zipcode"}
-            onChange={handleRadioChange}
-          />{" "}
-          Other. Please specify zip code:
-          <input
-            type="number"
-            id="Zipcode"
-            name="Zipcode"
-            autoComplete="on"
-            value={formData.Zipcode}
-            onChange={handleTextboxChange}
-            disabled={formData.From !== "Zipcode"} // Enable/disable based on radio button
-            required
-          />
-          {formData.From === "Zipcode" && formData.Zipcode === "" && (
-            <>Please enter a zipcode</>
-          )}
+    <div className="container">
+      <form id="serch-htmlForm" onSubmit={handleSubmit} className="my-4">
+        <h1>Product Search</h1>
+        <div className="form-group row my-3">
+          <label htmlFor="Keyword" className="col-sm-2 col-form-label">
+            Keywords<span className="required-char">*</span>
+          </label>
+          <div className="col-sm-6">
+            <input
+              type="text"
+              id="Keyword"
+              name="Keyword"
+              autoComplete="on"
+              value={formData.Keyword}
+              onChange={handleTextboxChange}
+              placeholder="Enter Product Name (eg Iphone 8)"
+              className="form-control"
+              size="10"
+            />
+            {showKeywordError && (
+              <p className="text-danger">Please enter a keyword</p>
+            )}
+          </div>
         </div>
-        <br></br>
-        <div>
-          <button
-            type="submit"
-            disabled={
-              formData.From === "Zipcode" && formData.Zipcode.length !== 5
-            }
-          >
-            Search
-          </button>
 
-          <button type="reset" onClick={handleClear}>
-            Clear
-          </button>
+        <div className="form-group row my-3">
+          <label htmlFor="Category" className="col-sm-2 col-form-label">
+            Category
+          </label>
+          <div className="col-sm-2">
+            <select
+              id="Category"
+              name="Category"
+              value={formData.Category}
+              onChange={handleCategoryChange}
+              className="form-control"
+            >
+              <option value="all">All Categories</option>
+              <option value="550">Art</option>
+              <option value="2984">Baby</option>
+              <option value="261186">Books</option>
+              <option value="11450">Clothing, Shoes & Accessories</option>
+              <option value="58058">Computers/Tablets & Networking</option>
+              <option value="21136">Health & Beauty</option>
+              <option value="157003">Music</option>
+              <option value="1249">Video Games & Consoles</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="form-group row my-3">
+          <label className="col-sm-2 col-form-label">Condition</label>
+          <div className="col-sm-10">
+            <div className="form-check form-check-inline square-checkbox">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="New"
+                name="New"
+                checked={formData.New}
+                onChange={handleCheckboxChange}
+              />
+              <label className="form-check-label" htmlFor="New">
+                New
+              </label>
+            </div>
+            <div className="form-check form-check-inline square-checkbox">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="Used"
+                name="Used"
+                checked={formData.Used}
+                onChange={handleCheckboxChange}
+              />
+              <label className="form-check-label" htmlFor="Used">
+                Used
+              </label>
+            </div>
+            <div className="form-check form-check-inline square-checkbox">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="Unspecified"
+                name="Unspecified"
+                checked={formData.Unspecified}
+                onChange={handleCheckboxChange}
+              />
+              <label className="form-check-label" htmlFor="Unspecified">
+                Unspecified
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div className="form-group row my-3">
+          <label className="col-sm-2 col-form-label">Shipping Options</label>
+          <div className="col-sm-10">
+            <div className="form-check form-check-inline square-checkbox">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="LocalPickup"
+                name="LocalPickup"
+                checked={formData.LocalPickup}
+                onChange={handleCheckboxChange}
+              />
+              <label className="form-check-label" htmlFor="LocalPickup">
+                Local Pickup
+              </label>
+            </div>
+            <div className="form-check form-check-inline square-checkbox">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="FreeShipping"
+                name="FreeShipping"
+                checked={formData.FreeShipping}
+                onChange={handleCheckboxChange}
+              />
+              <label className="form-check-label" htmlFor="FreeShipping">
+                Free Shipping
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div className="form-group row my-3">
+          <label htmlFor="Distance" className="col-sm-2 col-form-label">
+            Distance(Miles)
+          </label>
+          <div className="col-sm-2">
+            <input
+              type="number"
+              id="Distance"
+              name="Distance"
+              value={formData.Distance}
+              onChange={handleTextboxChange}
+              className="form-control"
+            />
+          </div>
+        </div>
+
+        <div className="form-group row my-3">
+          <label className="col-sm-2 col-form-label">
+            From<span className="required-char">*</span>
+          </label>
+          <div className="col-sm-10" id="location-div">
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="radio"
+                id="Current-Location-Radio"
+                name="From"
+                value="Current Location"
+                checked={formData.From === "Current Location"}
+                onChange={handleRadioChange}
+              />
+              <label
+                className="form-check-label"
+                htmlFor="Current-Location-Radio"
+              >
+                'Current Location'
+              </label>
+            </div>
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="radio"
+                id="Zipcode-Radio"
+                name="From"
+                value="Zipcode"
+                checked={formData.From === "Zipcode"}
+                onChange={handleRadioChange}
+              />
+              <label className="form-check-label" htmlFor="Zipcode-Radio">
+                Other. Please specify zip <br />
+                code:
+              </label>
+            </div>
+          </div>
+        </div>
+        <div className="form-group row my-3">
+          <div className="col-sm-2"></div>
+          <div className="col-sm-10" id="location-div">
+            <div className="col-sm-7">
+              <input
+                type="number"
+                id="Zipcode"
+                name="Zipcode"
+                autoComplete="on"
+                value={formData.Zipcode}
+                onChange={handleTextboxChange}
+                disabled={formData.From !== "Zipcode"}
+                required
+                className="form-control"
+              />
+              {formData.From === "Zipcode" && formData.Zipcode === "" && (
+                <p className="text-danger">Please enter a zipcode</p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="form-group row">
+          <div className="col-sm-10">
+            <button
+              type="submit"
+              disabled={
+                formData.From === "Zipcode" && formData.Zipcode.length !== 5
+              }
+              className=" btn btn-primary btn-search"
+            >
+              Search
+            </button>
+            <button
+              type="reset"
+              onClick={handleClear}
+              className="btn btn-secondary mx-5 btn-clear"
+            >
+              Clear
+            </button>
+          </div>
         </div>
       </form>
-      <div>
-        <button onClick={() => setView("Results")}>Results</button>
-        <button onClick={() => setView("Wishlist")}>Wishlist</button>
+
+      <div className="text-center mt-3">
+        <button className="btn btn-results" onClick={() => setView("Results")}>
+          Results
+        </button>
+        <button className="btn " onClick={() => setView("Wishlist")}>
+          Wish List
+        </button>
       </div>
       {view === "Results" && renderResultsView()}
       {view === "Wishlist" && renderWishlistView()}

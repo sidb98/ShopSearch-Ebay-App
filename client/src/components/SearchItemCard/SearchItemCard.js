@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./styles.css";
 import { useWishlist } from "../WishlistContext";
 import SingleItem from "../SingleItem";
 
@@ -46,44 +45,54 @@ export default function SearchItemCard({ items }) {
   };
 
   return (
-    <div>
+    <div className="container">
       {selectedItem ? (
-        <>
+        <div>
           <h3>{selectedItem.title}</h3>
           <button onClick={() => setSelectedItem(null)}>List</button>
           <SingleItem item={selectedItem} />
-        </>
+        </div>
       ) : (
         // Display the table when no item is selected
-        <>
-          <table className="item-table">
+        <div className="table-responsive">
+          <table className=" item-table">
             {items.length > 0 && (
               <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Image</th>
-                  <th>Title</th>
-                  <th>Price</th>
-                  <th>Shipping</th>
-                  <th>Zipcode</th>
-                  <th>Wishlist</th>
+                <tr className="row-odd">
+                  <th className="number-column">#</th>
+                  <th className="image-column">Image</th>
+                  <th className="title-column">Title</th>
+                  <th className="price-column">Price</th>
+                  <th className="shipping-column">Shipping</th>
+                  <th className="zipcode-column">Zipcode</th>
+                  <th className="wishlist-column">Wishlist</th>
                 </tr>
               </thead>
             )}
             <tbody>
               {currentItems.map((item, index) => (
-                <tr key={item.itemId} onClick={() => handleItemClick(item)}>
-                  <td>{startIndex + index + 1}</td>
-                  <td>
+                <tr
+                  key={item.itemId}
+                  onClick={() => handleItemClick(item)}
+                  className={index % 2 === 0 ? "row-even" : "row-odd"}
+                >
+                  <td className="number-column">{startIndex + index + 1}</td>
+                  <td className="image-column">
                     <img src={item.image} alt={item.title} />
                   </td>
-                  <td>{item.title}</td>
-                  <td>{item.price}</td>
-                  <td>{item.shipping}</td>
-                  <td>{item.zip}</td>
-                  <td>
+                  <td className="title-column">
+                    <span className="ellipsis-text" title={item.title}>
+                      {item.title.length > 32
+                        ? item.title.substring(0, 40) + "..."
+                        : item.title}
+                    </span>
+                  </td>
+                  <td className="price-column">{item.price}</td>
+                  <td className="shipping-column">{item.shipping}</td>
+                  <td className="zipcode-column">{item.zip}</td>
+                  <td className="wishlist-column">
                     <button
-                      className={`wishlist-button ${
+                      className={`btn wishlist-button ${
                         isItemInWishlist(item.itemId)
                           ? "wishlist-button-active"
                           : ""
@@ -93,22 +102,18 @@ export default function SearchItemCard({ items }) {
                         e.stopPropagation();
                         handleWishlistClick(item);
                       }}
-                    >
-                      {isItemInWishlist(item.itemId)
-                        ? "Remove from Wishlist"
-                        : "Add to Wishlist"}
-                    </button>
+                    ></button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
           {items.length > 0 && (
-            // TODO: Highlight the current page
-            <div className="pagination">
+            <div className="pagination justify-content-center">
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
+                className="page-button"
               >
                 Previous
               </button>
@@ -116,7 +121,9 @@ export default function SearchItemCard({ items }) {
                 <button
                   key={index + 1}
                   onClick={() => handlePageChange(index + 1)}
-                  className={currentPage === index + 1 ? "active" : ""}
+                  className={
+                    currentPage === index + 1 ? "active" : "page-button"
+                  }
                 >
                   {index + 1}
                 </button>
@@ -124,12 +131,13 @@ export default function SearchItemCard({ items }) {
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
+                className="page-button"
               >
                 Next
               </button>
             </div>
           )}
-        </>
+        </div>
       )}
     </div>
   );

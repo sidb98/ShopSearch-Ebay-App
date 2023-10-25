@@ -9,15 +9,17 @@ export default function ShippingTab({ item }) {
     oneDayShipping: "One Day Shipping",
     returnsAccepted: "Returns Accepted",
   };
+  console.log(item);
 
   return (
+    <div className="table-responsive container">
     <table>
       <tbody>
-        {Object.entries(keyOrder).map(([key, name]) => {
+        {Object.entries(keyOrder).map(([key, name], index) => {
           const value = item.shippingInfo[key];
           if (value !== 0) {
             return (
-              <tr key={key}>
+              <tr key={key} className={index % 2 === 0 ? "row-even" : "row-odd"}>
                 <td>{name}</td>
                 <td>{value}</td>
               </tr>
@@ -27,5 +29,6 @@ export default function ShippingTab({ item }) {
         })}
       </tbody>
     </table>
+    </div>
   );
 }
