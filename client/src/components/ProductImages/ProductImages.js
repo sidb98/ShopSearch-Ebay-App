@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 export default function ProductImages({ images, onClose }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -24,7 +24,7 @@ export default function ProductImages({ images, onClose }) {
         <div className="image-container">
           <img
             src={images[currentImageIndex]}
-            alt={`Image ${currentImageIndex + 1}`}
+            alt="Product"
           />
         </div>
         <div className="image-navigation">

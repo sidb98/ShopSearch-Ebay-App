@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./styles.css";
 
 import ProductsTab from "../ProductsTab";
 import PhotosTab from "../PhotosTab";
@@ -12,22 +11,11 @@ export default function SingleItem({ item }) {
   const [activeTab, setActiveTab] = useState("products");
   const { wishlist, addItemToWishlist, removeItemFromWishlist } = useWishlist();
 
-  // TODO: Send product link instead of image link
   const handleFacebookShare = () => {
-    // Construct the Facebook sharing message
-    const productName = item.title;
-    const price = item.price;
-    const link = item.image;
-
-    const facebookShareMessage = `Buy ${productName} at ${price} from ${link} below.`;
-    console.log(facebookShareMessage);
-
-    // Create the Facebook sharing URL
+    const link = item.link;
     const facebookShareURL = `https://www.facebook.com/sharer.php?u=${encodeURIComponent(
       link
-    )}&quote=${encodeURIComponent(facebookShareMessage)}`;
-
-    // Open the Facebook sharing dialog
+    )}`;
     window.open(facebookShareURL, "Facebook Share", "width=600,height=400");
   };
 
@@ -51,49 +39,91 @@ export default function SingleItem({ item }) {
     setActiveTab(tab);
   };
   return (
-    <div>
-      <button
-        className="facebook-share-button"
-        onClick={handleFacebookShare}
-      ></button>
-      <button
-        className={`wishlist-button ${
-          isItemInWishlist(item.itemId) ? "wishlist-button-active" : ""
-        }`}
-        onClick={() => handleWishlistClick(item)}
-      ></button>
-      <div className="tab-header">
-        <div
-          className={`tab ${activeTab === "products" ? "active" : ""}`}
-          onClick={() => handleTabClick("products")}
-        >
-          Products
-        </div>
-        <div
-          className={`tab ${activeTab === "photos" ? "active" : ""}`}
-          onClick={() => handleTabClick("photos")}
-        >
-          Photos
-        </div>
-        <div
-          className={`tab ${activeTab === "shipping" ? "active" : ""}`}
-          onClick={() => handleTabClick("shipping")}
-        >
-          Shipping
-        </div>
-        <div
-          className={`tab ${activeTab === "seller" ? "active" : ""}`}
-          onClick={() => handleTabClick("seller")}
-        >
-          Seller
-        </div>
-        <div
-          className={`tab ${activeTab === "similar" ? "active" : ""}`}
-          onClick={() => handleTabClick("similar")}
-        >
-          Similar Items
-        </div>
+    <div className="container mb-5">
+      <h3 className="text-center mt-4">{item.title}</h3>
+      <div className="row justify-content-end">
+        <button
+          className="btn facebook-share-button"
+          onClick={handleFacebookShare}
+        ></button>
+        <button
+          className={`btn wishlist-button ${
+            isItemInWishlist(item.itemId) ? "wishlist-button-active" : ""
+          }`}
+          onClick={() => handleWishlistClick(item)}
+        ></button>
       </div>
+
+      <ul className="nav nav-tabs justify-content-end">
+        {" "}
+        {/* Add 'justify-content-end' class to align tabs to the right */}
+        <li className="nav-item">
+          <a
+            className={`nav-link ${activeTab === "products" ? "active" : ""} `}
+            onClick={() => handleTabClick("products")}
+            style={
+              activeTab === "products"
+                ? { backgroundColor: "black", color: "#fff" }
+                : {}
+            }
+          >
+            Products
+          </a>
+        </li>
+        <li className="nav-item">
+          <a
+            className={`nav-link ${activeTab === "photos" ? "active" : ""}`}
+            onClick={() => handleTabClick("photos")}
+            style={
+              activeTab === "photos"
+                ? { backgroundColor: "black", color: "#fff" }
+                : {}
+            }
+          >
+            Photos
+          </a>
+        </li>
+        <li className="nav-item">
+          <a
+            className={`nav-link ${activeTab === "shipping" ? "active" : ""}`}
+            onClick={() => handleTabClick("shipping")}
+            style={
+              activeTab === "shipping"
+                ? { backgroundColor: "black", color: "#fff" }
+                : {}
+            }
+          >
+            Shipping
+          </a>
+        </li>
+        <li className="nav-item">
+          <a
+            className={`nav-link ${activeTab === "seller" ? "active" : ""}`}
+            onClick={() => handleTabClick("seller")}
+            style={
+              activeTab === "seller"
+                ? { backgroundColor: "black", color: "#fff" }
+                : {}
+            }
+          >
+            Seller
+          </a>
+        </li>
+        <li className="nav-item">
+          <a
+            className={`nav-link ${activeTab === "similar" ? "active" : ""}`}
+            onClick={() => handleTabClick("similar")}
+            style={
+              activeTab === "similar"
+                ? { backgroundColor: "black", color: "#fff" }
+                : {}
+            }
+          >
+            Similar Items
+          </a>
+        </li>
+      </ul>
+
       <div className="tab-content">
         {activeTab === "products" && <ProductsTab item={item} />}
         {activeTab === "photos" && <PhotosTab title={item.title} />}

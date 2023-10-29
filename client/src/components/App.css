@@ -56,12 +56,18 @@
   color: #54575a;
 }
 
-.btn-results,
+/* .btn-results,
 .btn-results:hover,
 .btn-results:active {
   background-color: black;
   color: white;
+} */
+
+.btn.active {
+  background-color: black;
+  color: white;
 }
+
 
 .no-result-message {
   margin-top: 1rem;
@@ -120,6 +126,11 @@
   width: 50px;
 }
 
+.row-title{
+  background-color: #212429;
+  color: #ffffff;
+}
+
 .row-odd {
   background-color: #212429;
   color: #ffffff;
@@ -128,6 +139,15 @@
   background-color: #2c2f34;
   color: #ffffff;
 }
+
+.row-hover:hover{
+  background-color: #c7c8ca;
+  color: #ffffff;
+}
+
+
+
+
 
 .wishlist-button,
 .wishlist-button:hover {
@@ -183,19 +203,48 @@
   background-position: center;
 }
 
-.tab-header .tab {
-  padding: 10px 20px; /* Adjust padding as needed */
-  cursor: pointer;
-
-  /* Set the background color for active tabs */
-  &.active {
-    background-color: black; /* Change to your preferred active tab color */
-    color: #fff; /* Text color for active tab */
-  }
+.nav-link {
+  color: black; /* Set the text color to white */
 }
 
+.bold-title {
+  font-weight: bold;
+}
+
+.similar-item{
+  background-color: #2c2f34;
+  color: #ffffff;
+}
+
+/* ------------ */
+/* ---WishList--- */
+/* ------------ */
 
 
 
+/* ------------ */
+/* ---Loading Bar--- */
+/* ------------ */
+
+.loading-bar-container {
+  width: 70%;
+  height: 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.loading-bar {
+  height: 100%;
+  background-color: #007bff; /* Loading bar color */
+  transition: width 0.3s; /* Add a transition effect for smoother progress */
+}
+
+.loading-text {
+  text-align: center;
+  padding: 5px;
+}
 
 

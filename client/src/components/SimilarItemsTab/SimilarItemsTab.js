@@ -40,7 +40,7 @@ export default function SimilarItemsTab({ item }) {
     let sortedItems = [...similarItems];
 
     if (criteria === "default") {
-        sortedItems = [...originalItems];
+      sortedItems = [...originalItems];
     } else if (criteria === "productname") {
       sortedItems.sort((a, b) => a.title.localeCompare(b.title));
     } else if (criteria === "daysleft") {
@@ -57,52 +57,77 @@ export default function SimilarItemsTab({ item }) {
 
     setSimilarItems(sortedItems);
   };
+  // TODO: Fix the sorting behvaiour and the title value stack
+  // TODO: Display No records found if no similar items are found
   return (
-    <div>
-      <div className="sorting-controls">
-        <label>
-          Sort by:
-          <select value={sortCriteria} onChange={handleSortCriteriaChange}>
-            <option value="default">Default</option>
-            <option value="productname">Product Name</option>
-            <option value="daysleft">Days Left</option>
-            <option value="price">Price</option>
-            <option value="shippingcost">Shipping Cost</option>
-          </select>
-        </label>
-        <label>
-          Sort order:
-          <select value={sortOrder} onChange={handleSortOrderChange}>
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-          </select>
-        </label>
+    <div className="container">
+      <div className="sorting-controls d-flex flex-sm-column flex-md-row my-3">
+        <select
+          value={sortCriteria}
+          onChange={handleSortCriteriaChange}
+          className="form-select me-3"
+        >
+          <option value="default">Default</option>
+          <option value="productname">Product Name</option>
+          <option value="daysleft">Days Left</option>
+          <option value="price">Price</option>
+          <option value="shippingcost">Shipping Cost</option>
+        </select>
+        <select
+          value={sortOrder}
+          onChange={handleSortOrderChange}
+          className="form-select "
+        >
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
       </div>
-
       {similarItems.length > 0 && (
-        <div className="similar-items">
+        <div className="similar-items ">
           {similarItems
             .slice(0, showAllItems ? similarItems.length : 5)
             .map((item, index) => (
-              <div className="similar-item" key={item.itemId}>
-                <div className="item-image">
-                  <img src={item.image} alt={item.title} />
-                </div>
-                <div className="item-detail">
-                  <p>{item.title}</p>
-                  <p>Price: ${item.price}</p>
-                  <p>Shipping Cost: ${item.shipping}</p>
-                  <p>Days Left: {item.daysLeft}</p>
+              <a href={item.link} target="_blank" rel="noopener noreferrer" key={item.itemId}>
+
+              <div
+                className="similar-item mb-3 rounded p-3 pb-4"
+                key={item.itemId}
+              >
+                <div className="row">
+                  <div className="col-md-2">
+                    <div className="item-image ms-4">
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        style={{ width: "150px", height: "150px" }}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-6 ms-3">
+                    <div className="item-detail">
+                      <p className="text-primary my-0">{item.title}</p>
+                      <p className="text-success my-0">Price: ${item.price}</p>
+                      <p className="text-warning my-0">
+                        Shipping Cost: ${item.shipping}
+                      </p>
+                      <p className="text-white my-0">
+                        Days Left: {item.daysLeft}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
+              </a>
             ))}
         </div>
       )}
 
       {similarItems.length > 5 && (
-        <button onClick={toggleItemsDisplay}>
-          {showAllItems ? "Show Less" : "Show More"}
-        </button>
+        <div className="d-flex justify-content-center">
+          <button onClick={toggleItemsDisplay} className="btn active">
+            {showAllItems ? "Show Less" : "Show More"}
+          </button>
+        </div>
       )}
     </div>
   );

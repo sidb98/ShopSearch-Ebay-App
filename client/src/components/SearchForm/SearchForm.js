@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import SearchItemCard from "../SearchItemCard";
 import WishlistCard from "../WishlistCard";
+import LoadingBar from "../LoadingBar";
 
 export default function SearchhtmlForm() {
   const ipinfoToken = process.env.REACT_APP_IPINFO_TOKEN;
-  // const geonameUsername = process.env.REACT_APP_GEONAME_USERNAME;   TODO - implement geoname api
 
   const initialFormData = {
     Keyword: "",
@@ -24,6 +24,9 @@ export default function SearchhtmlForm() {
   const [showKeywordError, setShowKeywordError] = useState(false);
   const [items, setItems] = useState([]);
   const [view, setView] = useState("Results");
+  const [searchSubmitted, setSearchSubmitted] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const handleCategoryChange = (event) => {
     const { name, value } = event.target;
@@ -39,6 +42,14 @@ export default function SearchhtmlForm() {
     const { name, value } = event.target;
     setFormData((formData) => ({ ...formData, [name]: value }));
     if (name === "Zipcode") {
+      axios
+        .get(`http://localhost:5000/geolocation?startsWith=${value}`)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
@@ -52,11 +63,14 @@ export default function SearchhtmlForm() {
     setShowKeywordError(false);
     setItems([]);
     setView("Results");
+    setSearchSubmitted(false);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setShowKeywordError(false);
+    setSearchSubmitted(true);
+    setLoading(true);
 
     // Check if keyword is empty
     if (formData.Keyword === "") {
@@ -75,7 +89,6 @@ export default function SearchhtmlForm() {
       try {
         const response = await axios.get(url);
         zipcode = response.data.postal;
-        // console.log(zipcode);
       } catch (error) {
         console.log(error);
       }
@@ -107,18 +120,36 @@ export default function SearchhtmlForm() {
       const response = await axios.get(url);
       console.log(response.data);
       setItems(response.data.items);
+      setLoadingProgress(100);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
 
   const renderResultsView = () => {
-    return (
-      <div>
-        {!items.length && (<p className="no-result-message">No Results</p>)}
-        <SearchItemCard items={items} />
-      </div>
-    );
+    if (searchSubmitted) {
+      if (loading) {
+        return (
+          <div className="d-flex justify-content-center align-items-center mt-3">
+            <LoadingBar
+              loadingProgress={loadingProgress}
+              setLoading={setLoadingProgress}
+            />
+          </div>
+        );
+      } else {
+        return (
+          <div>
+            {searchSubmitted && items.length === 0 ? (
+              <p className="no-result-message">No Results</p>
+            ) : (
+              <SearchItemCard items={items} />
+            )}
+          </div>
+        );
+      }
+    }
   };
 
   const renderWishlistView = () => {
@@ -130,8 +161,8 @@ export default function SearchhtmlForm() {
   };
 
   return (
-    <div className="container">
-      <form id="serch-htmlForm" onSubmit={handleSubmit} className="my-4">
+    <div className="container mb-5">
+      <form id="serch-htmlForm" onSubmit={handleSubmit} className="my-4 ps-5">
         <h1>Product Search</h1>
         <div className="form-group row my-3">
           <label htmlFor="Keyword" className="col-sm-2 col-form-label">
@@ -173,8 +204,8 @@ export default function SearchhtmlForm() {
               <option value="261186">Books</option>
               <option value="11450">Clothing, Shoes & Accessories</option>
               <option value="58058">Computers/Tablets & Networking</option>
-              <option value="21136">Health & Beauty</option>
-              <option value="157003">Music</option>
+              <option value="26395">Health & Beauty</option>
+              <option value="11233">Music</option>
               <option value="1249">Video Games & Consoles</option>
             </select>
           </div>
@@ -321,6 +352,7 @@ export default function SearchhtmlForm() {
                 id="Zipcode"
                 name="Zipcode"
                 autoComplete="on"
+                maxLength="5"
                 value={formData.Zipcode}
                 onChange={handleTextboxChange}
                 disabled={formData.From !== "Zipcode"}
@@ -357,10 +389,16 @@ export default function SearchhtmlForm() {
       </form>
 
       <div className="text-center mt-3">
-        <button className="btn btn-results" onClick={() => setView("Results")}>
+        <button
+          className={`btn ${view === "Results" ? "active" : ""}`}
+          onClick={() => setView("Results")}
+        >
           Results
         </button>
-        <button className="btn " onClick={() => setView("Wishlist")}>
+        <button
+          className={`btn ${view === "Wishlist" ? "active" : ""}`}
+          onClick={() => setView("Wishlist")}
+        >
           Wish List
         </button>
       </div>

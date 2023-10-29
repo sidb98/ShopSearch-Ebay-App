@@ -28,7 +28,7 @@ async function connectToMongo() {
 }
 
 connectToMongo();
-
+// MongoDB API endpoints
 app.post("/favorite", async (req, res) => {
   try {
     const { _id, image, title, price, shipping } = req.body;
@@ -79,7 +79,64 @@ app.get("/getKeys", async (req, res) => {
   }
 });
 
-// Search for all items
+// Google API endpoints
+app.get("/photos", async (req, res) => {
+  let query = req.query;
+  let url = `https://www.googleapis.com/customsearch/v1`;
+  let reqParams = {
+    q: query.productTitle,
+    cx: process.env.GOOGLE_ENGINE_ID,
+    imageSize: "huge",
+    imageType: "news",
+    num: 8,
+    searchType: "image",
+    key: process.env.GOOGLE_API_KEY,
+  };
+
+  try {
+    let resApiData = (await axios.get(url, { params: reqParams })).data;
+    let itemLinks = [];
+    if (!resApiData.items) res.send([]);
+    // console.log(resApiData);
+    resApiData.items.forEach((item) => {
+      itemLinks.push(item.link);
+    });
+    res.send(itemLinks);
+  } catch (err) {
+    console.log("Error in Google API call");
+    console.log(err);
+  }
+});
+
+//GeoLocation API endpoints
+app.get("/geolocation", async (req, res) => {
+  let query = req.query;
+  let startsWith = query.startsWith;
+  let url = `http://api.geonames.org/postalCodeSearchJSON`;
+  let reqParams = {
+    username: process.env.GEONAME_USERNAME,
+    country: "US",
+    maxRows: 5,
+    postalcode_startsWith: startsWith,
+  };
+
+  try {
+    let resApiData = (await axios.get(url, { params: reqParams })).data;
+    let zipCodes = [];
+    if (!resApiData.postalCodes) res.send([]);
+    resApiData.postalCodes.forEach((item) => {
+      zipCodes.push(item.postalCode);
+    });
+    res.send(zipCodes);
+  }
+  catch (err) {
+    console.log("Error in GeoLocation API call");
+    console.log(err);
+  }
+});
+
+
+// Ebay API endpoints
 app.get("/search", async (req, res) => {
   let query = req.query;
 
@@ -137,12 +194,13 @@ app.get("/search", async (req, res) => {
     }
     itemFilterIdx++;
   }
-  //   console.log("reqParams");
-  //   console.log(reqParams);
+    // console.log(reqParams);
 
   Object.keys(query).forEach((key) => {
     reqParams[key] = query[key];
   });
+
+  
   try {
     let resApiData = (await axios.get(url, { params: reqParams })).data;
     let resData = {};
@@ -151,24 +209,58 @@ app.get("/search", async (req, res) => {
 
     let itemsList =
       resApiData.findItemsByKeywordsResponse[0].searchResult[0].item;
+    if (!itemsList) {
+      resData.ack = "Faliure";
+      resData.items = [];
+      res.send(resData);
+      return;
+    };
     itemsList.forEach((item, idx) => {
       let singleItem = {};
-      singleItem.itemId = item.itemId[0];
-      singleItem.image = item.galleryURL[0];
-      singleItem.title = item.title[0];
-      singleItem.price = item.sellingStatus[0].currentPrice[0].__value__;
+      singleItem.itemId = item.itemId ? item.itemId[0] : "N/A";
+      singleItem.image = item.galleryURL ? item.galleryURL[0] : "N/A";
+      singleItem.link = item.viewItemURL ? item.viewItemURL[0] : "N/A";
+      singleItem.title = item.title ? item.title[0] : "N/A";
+      singleItem.price =
+        item.sellingStatus &&
+        item.sellingStatus[0] &&
+        item.sellingStatus[0].currentPrice
+          ? item.sellingStatus[0].currentPrice[0].__value__
+          : "N/A";
       singleItem.shipping =
-        item.shippingInfo[0].shippingServiceCost[0].__value__;
+        item.shippingInfo &&
+        item.shippingInfo[0] &&
+        item.shippingInfo[0].shippingServiceCost
+          ? item.shippingInfo[0].shippingServiceCost[0].__value__
+          : "N/A";
       singleItem.zip =
-        item.postalCode && item.postalCode[0] ? item.postalCode[0] : "N/A"; // from https://stackoverflow.com/questions/57333535/add-a-default-value-for-a-json-property-when-it-doesnt-exist-in-javascript
+        item.postalCode && item.postalCode[0] ? item.postalCode[0] : "N/A";
 
       let sellerInfo = {};
-      sellerInfo.feedbackScore = item.sellerInfo[0].feedbackScore[0];
-      sellerInfo.popularity = item.sellerInfo[0].positiveFeedbackPercent[0];
-      sellerInfo.feedbackRating = item.sellerInfo[0].feedbackRatingStar[0];
-      sellerInfo.topRated = item.sellerInfo[0].topRatedSeller[0];
-
-      // From https://stackoverflow.com/questions/48514504/how-to-deal-with-json-when-a-key-is-missing-sometimes
+      sellerInfo.feedbackScore =
+        item.sellerInfo &&
+        item.sellerInfo[0] &&
+        item.sellerInfo[0].feedbackScore
+          ? item.sellerInfo[0].feedbackScore[0]
+          : "N/A";
+      sellerInfo.popularity =
+        item.sellerInfo &&
+        item.sellerInfo[0] &&
+        item.sellerInfo[0].positiveFeedbackPercent
+          ? item.sellerInfo[0].positiveFeedbackPercent[0]
+          : "N/A";
+      sellerInfo.feedbackRating =
+        item.sellerInfo &&
+        item.sellerInfo[0] &&
+        item.sellerInfo[0].feedbackRatingStar
+          ? item.sellerInfo[0].feedbackRatingStar[0]
+          : "N/A";
+      sellerInfo.topRated =
+        item.sellerInfo &&
+        item.sellerInfo[0] &&
+        item.sellerInfo[0].topRatedSeller
+          ? item.sellerInfo[0].topRatedSeller[0]
+          : "N/A";
       sellerInfo.storeName =
         item.storeInfo && item.storeInfo[0] && item.storeInfo[0].storeName
           ? item.storeInfo[0].storeName[0]
@@ -180,21 +272,41 @@ app.get("/search", async (req, res) => {
       singleItem.sellerInfo = sellerInfo;
 
       if (singleItem.shipping === "0.0") singleItem.shipping = "Free Shipping";
-
       if (singleItem.shipping === "") singleItem.shipping = "N/A";
 
       let shippingInfo = {};
-      shippingInfo.shippingCost = item.shippingInfo[0].shippingServiceCost[0].__value__;
-      shippingInfo.shippingLocation = item.shippingInfo[0].shipToLocations[0];
-      shippingInfo.handlingTime = item.shippingInfo[0].handlingTime[0];
-      shippingInfo.expeditedShipping = item.shippingInfo[0].expeditedShipping[0];
-      shippingInfo.oneDayShipping = item.shippingInfo[0].oneDayShippingAvailable[0];
-      shippingInfo.returnsAccepted = item.returnsAccepted[0];
-
+      if (item.shippingInfo && item.shippingInfo[0]) {
+        shippingInfo.shippingCost = item.shippingInfo[0].shippingServiceCost
+          ? item.shippingInfo[0].shippingServiceCost[0].__value__
+          : "N/A";
+        shippingInfo.shippingLocation = item.shippingInfo[0].shipToLocations
+          ? item.shippingInfo[0].shipToLocations[0]
+          : "N/A";
+        shippingInfo.handlingTime = item.shippingInfo[0].handlingTime
+          ? item.shippingInfo[0].handlingTime[0]
+          : "N/A";
+        shippingInfo.expeditedShipping = item.shippingInfo[0].expeditedShipping
+          ? item.shippingInfo[0].expeditedShipping[0]
+          : "N/A";
+        shippingInfo.oneDayShipping = item.shippingInfo[0]
+          .oneDayShippingAvailable
+          ? item.shippingInfo[0].oneDayShippingAvailable[0]
+          : "N/A";
+      } else {
+        shippingInfo.shippingCost = "N/A";
+        shippingInfo.shippingLocation = "N/A";
+        shippingInfo.handlingTime = "N/A";
+        shippingInfo.expeditedShipping = "N/A";
+        shippingInfo.oneDayShipping = "N/A";
+      }
       singleItem.shippingInfo = shippingInfo;
-
+      shippingInfo.returnsAccepted = item.returnsAccepted
+        ? item.returnsAccepted[0]
+        : "N/A";
+      
       items.push(singleItem);
     });
+    resData.ack = "Success"
     resData.items = items;
     res.send(resData);
   } catch (err) {
@@ -230,6 +342,7 @@ app.get("/singleItem/:itemId", async (req, res) => {
     // res.send(resApiData);
     // Info tab data
     resData.productImg = resApiData.Item.PictureURL;
+    resData.link = resApiData.Item.ViewItemURLForNaturalSearch;
     resData.Price = resApiData.Item.CurrentPrice.Value;
     resData.Location = resApiData.Item.Location || "";
     resData.Return =
@@ -248,12 +361,13 @@ app.get("/singleItem/:itemId", async (req, res) => {
 
     // Remove empty fields
     // from https://stackoverflow.com/questions/65441273/js-remove-empty-keys-from-an-object
-    let cleanResData = Object.entries(resData).reduce(
-      (acc, [k, v]) => (v ? { ...acc, [k]: v } : acc),
-      {}
-    );
+    // let cleanResData = Object.entries(resData).reduce(
+    //   (acc, [k, v]) => (v ? { ...acc, [k]: v } : acc),
+    //   {}
+    // );
 
-    res.send(cleanResData);
+    // res.send(cleanResData);
+    res.send(resData);
   } catch (err) {
     console.log(err);
   }
@@ -299,6 +413,7 @@ app.get("/similarItems/:itemId", async (req, res) => {
       singleItem.price = item.buyItNowPrice.__value__;
       singleItem.shipping = item.shippingCost.__value__;
       singleItem.image = item.imageURL;
+      singleItem.link = item.viewItemURL;
 
       // "how do i get the value between P and D" prompt (2 lines) . ChatGPT September 25 Version  OpenAI, 7 Oct. 2023, chat.openai.com/chat.
       const match = item.timeLeft.match(/P(\d+)D/);
@@ -314,5 +429,5 @@ app.get("/similarItems/:itemId", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log("Server listening on port 5000!");
+  console.log(`Server listening on port ${PORT}!`);
 });

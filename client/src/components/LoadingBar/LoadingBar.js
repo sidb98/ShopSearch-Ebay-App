@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import "./styles.css";
 
 export default function LoadingBar({ loadingProgress, setLoading }) {
   useEffect(() => {
@@ -18,7 +17,7 @@ export default function LoadingBar({ loadingProgress, setLoading }) {
   }, [loadingProgress, setLoading]);
 
   return (
-    <div className="loading-bar-container">
+    <div className="loading-bar-container w-100">
       <div
         className="loading-bar"
         style={{ width: `${loadingProgress}%` }}
