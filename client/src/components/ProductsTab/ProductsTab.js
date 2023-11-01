@@ -4,22 +4,16 @@ import axios from "axios";
 import LoadingBar from "../LoadingBar";
 import ImageModal from "../ImageModal";
 
-import ImageGallery from "react-image-gallery";
-import "react-image-gallery/styles/css/image-gallery.css";
-
-
 
 export default function ProductsTab({ item }) {
   const [productDetails, setProductDetails] = useState({});
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loading, setLoading] = useState(true);
   const [showImageModal, setShowImageModal] = useState(false);
-  const [images, setImages] = useState([]);
 
 
   const openImageModal = () => {
     setShowImageModal(true);
-    console.log(images);
   };
 
   useEffect(() => {
@@ -30,10 +24,6 @@ export default function ProductsTab({ item }) {
         setLoadingProgress(100);
         setLoading(false);
   
-        const convertedImages = response.data.productImg.map((url) => ({
-          original: url,
-        }));
-        setImages(convertedImages);
       })
       .catch((error) => {
         console.log("Could not retrieve product details");
@@ -65,7 +55,7 @@ export default function ProductsTab({ item }) {
                     background: "transparent",
                     border: "none",
                     cursor: "pointer",
-                    color: "white",
+                    color: "blue",
                   }}
                 >
                   View Product Images
@@ -113,8 +103,7 @@ export default function ProductsTab({ item }) {
           isOpen={setShowImageModal}
           onClose={() => setShowImageModal(false)}
         />
-        // console.log(images),
-        // <ImageGallery  items={images}/>
+
       )}
     </div>
   );

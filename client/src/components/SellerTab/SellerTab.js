@@ -1,6 +1,10 @@
 import React from "react";
 import "material-icons/iconfont/material-icons.css";
 
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+
+
 export default function SellerTab({ item }) {
   const keyOrder = {
     feedbackScore: "Feedback Score",
@@ -58,7 +62,31 @@ export default function SellerTab({ item }) {
                         ? "stars"
                         : "star_border"}
                     </span>
-                  ) : (
+                  ) : key === "popularity" ? (
+                    <div style={{ width: '40px', height: '40px' }}>
+                        <CircularProgressbar
+                            value={value}
+                            text={`${value}`}
+                            styles={{
+                              root: {},
+                              path: {
+                                  stroke: `#117811`,
+                                  strokeLinecap: 'butt',
+                                  transition: 'stroke-dashoffset 0.5s ease 0s',
+                              },
+                              trail: {
+                                  stroke: '#e1e1e1',
+                                  strokeLinecap: 'butt',
+                              },
+                              text: {
+                                  fill: '#FFFFFF',
+                                  fontSize: '32px',
+                              },
+                          }}
+                        />
+                    </div>
+                ) 
+                  : (
                     value
                   )}
                 </td>
