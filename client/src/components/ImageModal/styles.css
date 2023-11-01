@@ -1,0 +1,95 @@
+.modalBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContainer {
+  background-color: #fff;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+  padding-bottom: 20px;
+}
+.modalContainer h3 {
+  margin-top: 16px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.imageContainer {
+  margin: 30px;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  padding-bottom: 30px;
+  width: 350px;
+  height: 300px;
+}
+
+.imageContainer img {
+  display: block;
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+  border: black 10px solid;
+}
+
+.controls {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  transform: translateY(-50%);
+  z-index: 10; /* position controls above the image */
+}
+
+.controls button {
+  background-color: transparent;
+  border: none;
+  font-size: 2rem; /* Increased font size for larger arrows */
+  color: white; /* Changed color to white for better visibility */
+  cursor: pointer;
+}
+
+.controls button:first-child {
+  color: black;
+  position: absolute;
+  left: 5px; /* Position left arrow to the left side */
+}
+
+.controls button:last-child {
+  color: black;
+  position: absolute;
+  right: 5px; /* Position right arrow to the right side */
+}
+
+.closeButton {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: transparent;
+  font-size: 1.2rem;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  padding: 5px 10px;
+}
+
+.headerContainer {
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+}
+
+.crossbutton {
+  cursor: pointer;
+  font-size: 30px; 
+    margin-right: 20px;
+}

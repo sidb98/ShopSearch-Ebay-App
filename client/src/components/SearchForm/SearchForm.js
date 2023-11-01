@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+
 import SearchItemCard from "../SearchItemCard";
 import WishlistCard from "../WishlistCard";
 import LoadingBar from "../LoadingBar";
@@ -27,6 +28,7 @@ export default function SearchhtmlForm() {
   const [searchSubmitted, setSearchSubmitted] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [zipcodeOptions, setZipcodeOptions] = useState([]);
 
   const handleCategoryChange = (event) => {
     const { name, value } = event.target;
@@ -43,9 +45,14 @@ export default function SearchhtmlForm() {
     setFormData((formData) => ({ ...formData, [name]: value }));
     if (name === "Zipcode") {
       axios
-        .get(`http://localhost:5000/geolocation?startsWith=${value}`)
+        .get(`/geolocation?startsWith=${value}`)
         .then((response) => {
-          console.log(response.data);
+          const options = response.data.map((zipcode) => ({
+            value: zipcode,
+            label: zipcode,
+          }));
+          setZipcodeOptions(options);
+          console.log(zipcodeOptions);
         })
         .catch((error) => {
           console.log(error);
@@ -69,12 +76,11 @@ export default function SearchhtmlForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setShowKeywordError(false);
-    setSearchSubmitted(true);
-    setLoading(true);
 
     // Check if keyword is empty
     if (formData.Keyword === "") {
       setShowKeywordError(true);
+      return;
     }
 
     let zipcode;
@@ -84,18 +90,21 @@ export default function SearchhtmlForm() {
 
     // Get zipcode from IP address if Current Location is selected
     if (formData.From === "Current Location") {
-      let url = "https://ipinfo.io/json?token=" + ipinfoToken;
+      let baseURL = "https://ipinfo.io";
+      const instance = axios.create({
+        baseURL,
+        params: {
+          token: ipinfoToken,
+        },
+      });
 
       try {
-        const response = await axios.get(url);
+        const response = await instance.get("/json");
         zipcode = response.data.postal;
       } catch (error) {
         console.log(error);
       }
     }
-
-    // Create request URL json
-    let url = "http://localhost:5000/search?";
 
     const urlJson = {
       keyword: formData.Keyword,
@@ -110,14 +119,14 @@ export default function SearchhtmlForm() {
     if (formData.LocalPickup) urlJson["localpickup"] = formData.LocalPickup;
     if (formData.FreeShipping) urlJson["freeshipping"] = formData.FreeShipping;
 
-    // console.log(urlJson);
-    const searchQuery = new URLSearchParams(urlJson).toString();
-    url += searchQuery;
-    // console.log(url);
-
     // Send request
     try {
-      const response = await axios.get(url);
+      setLoading(true);
+      setSearchSubmitted(true);
+
+      const response = await axios.get("/search", {
+        params: urlJson,
+      });
       console.log(response.data);
       setItems(response.data.items);
       setLoadingProgress(100);
@@ -125,6 +134,7 @@ export default function SearchhtmlForm() {
     } catch (error) {
       console.log(error);
     }
+
   };
 
   const renderResultsView = () => {
@@ -201,7 +211,7 @@ export default function SearchhtmlForm() {
               <option value="all">All Categories</option>
               <option value="550">Art</option>
               <option value="2984">Baby</option>
-              <option value="261186">Books</option>
+              <option value="267">Books</option>
               <option value="11450">Clothing, Shoes & Accessories</option>
               <option value="58058">Computers/Tablets & Networking</option>
               <option value="26395">Health & Beauty</option>
@@ -351,7 +361,6 @@ export default function SearchhtmlForm() {
                 type="number"
                 id="Zipcode"
                 name="Zipcode"
-                autoComplete="on"
                 maxLength="5"
                 value={formData.Zipcode}
                 onChange={handleTextboxChange}
@@ -359,6 +368,34 @@ export default function SearchhtmlForm() {
                 required
                 className="form-control"
               />
+              {/* <Autocomplete
+                id="Zipcode"
+                name="Zipcode"
+                options={zipcodeOptions}
+                getOptionLabel={(option) => option.label}
+                value={formData.Zipcode}
+                onChange={handleTextboxChange}
+                onInputChange={handleTextboxChange}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Zipcode"
+                    size="small"
+                    fullWidth
+                    error={
+                      formData.From === "Zipcode" && formData.Zipcode === ""
+                    }
+                    helperText={
+                      formData.From === "Zipcode" && formData.Zipcode === ""
+                        ? "Please enter a zipcode"
+                        : null
+                    }
+                  />
+                )}
+                isOptionEqualToValue={(option, value) =>
+                  option.label === value.label
+                } 
+              />*/}
               {formData.From === "Zipcode" && formData.Zipcode === "" && (
                 <p className="text-danger">Please enter a zipcode</p>
               )}

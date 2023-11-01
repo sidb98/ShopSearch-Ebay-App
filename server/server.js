@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 import dotenv from "dotenv";
 import axios from "axios";
 import cors from "cors";
@@ -128,17 +128,16 @@ app.get("/geolocation", async (req, res) => {
       zipCodes.push(item.postalCode);
     });
     res.send(zipCodes);
-  }
-  catch (err) {
+  } catch (err) {
     console.log("Error in GeoLocation API call");
     console.log(err);
   }
 });
 
-
 // Ebay API endpoints
 app.get("/search", async (req, res) => {
   let query = req.query;
+  console.log(query);
 
   let url = `https://svcs.ebay.com/services/search/FindingService/v1`;
   let reqParams = {
@@ -149,10 +148,7 @@ app.get("/search", async (req, res) => {
     "paginationInput.entriesPerPage": "50",
     "outputSelector(0)": "SellerInfo",
     "outputSelector(1)": "StoreInfo",
-    keywords: query.keyword,
-    buyerPostalCode: query.zipcode,
-    "itemFilter(0).name": "MaxDistance",
-    "itemFilter(0).value": query.distance,
+    "keywords": query.keyword,
   };
 
   let itemFilterIdx = 1;
@@ -160,14 +156,18 @@ app.get("/search", async (req, res) => {
   // TODO: Fix cateogryId
   if (query.category !== "all") reqParams["categoryId"] = query.category;
 
+  reqParams["buyerPostalCode"] = query.zipcode;
+  reqParams["itemFilter(0).name"] = "MaxDistance";
+  reqParams["itemFilter(0).value"] = query.distance;
+
   if (query.localpickup) {
     reqParams[`itemFilter(${itemFilterIdx}).name`] = "LocalPickupOnly";
-    reqParams[`itemFilter(${itemFilterIdx}).value(${itemFilterIdx})`] = "true";
+    reqParams[`itemFilter(${itemFilterIdx}).value`] = "true";
     itemFilterIdx++;
   }
-  if (query.free) {
+  if (query.freeshipping) {
     reqParams[`itemFilter(${itemFilterIdx}).name`] = "FreeShippingOnly";
-    reqParams[`itemFilter(${itemFilterIdx}).value(${itemFilterIdx})`] = "true";
+    reqParams[`itemFilter(${itemFilterIdx}).value`] = "true";
     itemFilterIdx++;
   }
 
@@ -177,32 +177,36 @@ app.get("/search", async (req, res) => {
     if (query.new) {
       reqParams[
         `itemFilter(${itemFilterIdx}).value(${itemFilterConditionIdx})`
-      ] = "New";
+      ] = "1000";
       itemFilterConditionIdx++;
     }
     if (query.used) {
       reqParams[
         `itemFilter(${itemFilterIdx}).value(${itemFilterConditionIdx})`
-      ] = "Used";
+      ] = "3000";
       itemFilterConditionIdx++;
     }
-    if (query.unspecified) {
-      reqParams[
-        `itemFilter(${itemFilterIdx}).value(${itemFilterConditionIdx})`
-      ] = "Unspecified";
-      itemFilterConditionIdx++;
-    }
+
+    // if (query.unspecified) {
+    //   reqParams[
+    //     `itemFilter(${itemFilterIdx}).value(${itemFilterConditionIdx})`
+    //   ] = "Unspecified";
+    //   itemFilterConditionIdx++;
+    // }
     itemFilterIdx++;
   }
-    // console.log(reqParams);
 
-  Object.keys(query).forEach((key) => {
-    reqParams[key] = query[key];
-  });
+  console.log(reqParams);
 
-  
   try {
-    let resApiData = (await axios.get(url, { params: reqParams })).data;
+    let response = await axios.get(url, { params: reqParams });
+
+    if (response.data.findItemsByKeywordsResponse[0].ack[0] === "Failure") {
+      res.send([]);
+      return;
+    }
+
+    let resApiData = response.data;
     let resData = {};
     // res.send(resApiData);
     let items = [];
@@ -214,7 +218,7 @@ app.get("/search", async (req, res) => {
       resData.items = [];
       res.send(resData);
       return;
-    };
+    }
     itemsList.forEach((item, idx) => {
       let singleItem = {};
       singleItem.itemId = item.itemId ? item.itemId[0] : "N/A";
@@ -299,14 +303,15 @@ app.get("/search", async (req, res) => {
         shippingInfo.expeditedShipping = "N/A";
         shippingInfo.oneDayShipping = "N/A";
       }
+      shippingInfo.shippingCost = shippingInfo.shippingCost === "0.0" ? "Free Shipping" : "$"+shippingInfo.shippingCost;
       singleItem.shippingInfo = shippingInfo;
       shippingInfo.returnsAccepted = item.returnsAccepted
         ? item.returnsAccepted[0]
         : "N/A";
-      
+
       items.push(singleItem);
     });
-    resData.ack = "Success"
+    resData.ack = "Success";
     resData.items = items;
     res.send(resData);
   } catch (err) {
@@ -343,7 +348,7 @@ app.get("/singleItem/:itemId", async (req, res) => {
     // Info tab data
     resData.productImg = resApiData.Item.PictureURL;
     resData.link = resApiData.Item.ViewItemURLForNaturalSearch;
-    resData.Price = resApiData.Item.CurrentPrice.Value;
+    resData.Price = "$"+resApiData.Item.CurrentPrice.Value || "N/A";
     resData.Location = resApiData.Item.Location || "";
     resData.Return =
       resApiData.Item.ReturnPolicy.ReturnsAccepted ||

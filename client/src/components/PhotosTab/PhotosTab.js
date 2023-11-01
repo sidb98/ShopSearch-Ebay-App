@@ -7,7 +7,7 @@ export default function PhotosTab({ title }) {
   const [photoList, setPhotoList] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/photos?productTitle=${title}`)
+      .get(`/photos?productTitle=${title}`)
       .then((response) => {
         setPhotoList(response.data);
       })

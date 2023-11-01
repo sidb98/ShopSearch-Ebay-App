@@ -10,7 +10,7 @@ export default function SimilarItemsTab({ item }) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/similarItems/${item.itemId}`)
+      .get(`/similarItems/${item.itemId}`)
       .then((response) => {
         setSimilarItems(response.data.items);
         setOriginalItems(response.data.items);
@@ -57,6 +57,13 @@ export default function SimilarItemsTab({ item }) {
 
     setSimilarItems(sortedItems);
   };
+
+
+  const openItemInNewTab = (link) => {
+    window.open(link, "_blank");
+  }
+
+
   // TODO: Fix the sorting behvaiour and the title value stack
   // TODO: Display No records found if no similar items are found
   return (
@@ -87,11 +94,10 @@ export default function SimilarItemsTab({ item }) {
           {similarItems
             .slice(0, showAllItems ? similarItems.length : 5)
             .map((item, index) => (
-              <a href={item.link} target="_blank" rel="noopener noreferrer" key={item.itemId}>
-
               <div
                 className="similar-item mb-3 rounded p-3 pb-4"
                 key={item.itemId}
+                onClick={openItemInNewTab.bind(this, item.link)}
               >
                 <div className="row">
                   <div className="col-md-2">
@@ -117,7 +123,6 @@ export default function SimilarItemsTab({ item }) {
                   </div>
                 </div>
               </div>
-              </a>
             ))}
         </div>
       )}
