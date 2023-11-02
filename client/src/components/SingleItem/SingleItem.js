@@ -56,9 +56,8 @@ export default function SingleItem({ item }) {
 
       <ul className="nav nav-tabs justify-content-end">
         {" "}
-        {/* Add 'justify-content-end' class to align tabs to the right */}
         <li className="nav-item">
-          <a
+          <button
             className={`nav-link ${activeTab === "products" ? "active" : ""} `}
             onClick={() => handleTabClick("products")}
             style={
@@ -68,10 +67,10 @@ export default function SingleItem({ item }) {
             }
           >
             Products
-          </a>
+          </button>
         </li>
         <li className="nav-item">
-          <a
+          <button
             className={`nav-link ${activeTab === "photos" ? "active" : ""}`}
             onClick={() => handleTabClick("photos")}
             style={
@@ -81,10 +80,10 @@ export default function SingleItem({ item }) {
             }
           >
             Photos
-          </a>
+          </button>
         </li>
         <li className="nav-item">
-          <a
+          <button
             className={`nav-link ${activeTab === "shipping" ? "active" : ""}`}
             onClick={() => handleTabClick("shipping")}
             style={
@@ -94,10 +93,10 @@ export default function SingleItem({ item }) {
             }
           >
             Shipping
-          </a>
+          </button>
         </li>
         <li className="nav-item">
-          <a
+          <button
             className={`nav-link ${activeTab === "seller" ? "active" : ""}`}
             onClick={() => handleTabClick("seller")}
             style={
@@ -107,10 +106,10 @@ export default function SingleItem({ item }) {
             }
           >
             Seller
-          </a>
+          </button>
         </li>
         <li className="nav-item">
-          <a
+          <button
             className={`nav-link ${activeTab === "similar" ? "active" : ""}`}
             onClick={() => handleTabClick("similar")}
             style={
@@ -120,7 +119,7 @@ export default function SingleItem({ item }) {
             }
           >
             Similar Items
-          </a>
+          </button>
         </li>
       </ul>
 

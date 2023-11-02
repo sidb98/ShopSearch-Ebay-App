@@ -68,7 +68,7 @@ export default function SimilarItemsTab({ item }) {
   // TODO: Display No records found if no similar items are found
   return (
     <div className="container">
-      <div className="sorting-controls d-flex flex-sm-column flex-md-row my-3">
+      <div className="sorting-controls d-flex flex-column flex-md-row my-3">
         <select
           value={sortCriteria}
           onChange={handleSortCriteriaChange}

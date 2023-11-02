@@ -34,8 +34,8 @@ export default function SellerTab({ item }) {
                 key={key}
                 className={index % 2 === 0 ? "row-even" : "row-odd"}
               >
-                <td className="col-5 bold-title ps-4 pt-2 pb-2">{name}</td>
-                <td className="col-3 pt-2 pb-2">
+                <td className="col-12 col-md-5 bold-title ps-md-4 py-2 d-block d-sm-table-cell">{name}</td>
+                <td className="col-12 col-md-3 py-2 d-block d-sm-table-cell">
                   {key === "buyProductAt" ? (
                     <a href={value} target="_blank" rel="noopener noreferrer">
                       Store

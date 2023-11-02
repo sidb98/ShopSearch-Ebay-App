@@ -6,10 +6,10 @@
   padding: 2rem;
 }
 
-#serch-htmlForm,
+#serch-htmlForm h1,
 #serch-htmlForm label,
 #serch-htmlForm checkbox,
-#serch-htmlForm distance {
+#serch-htmlForm #distance {
   color: #ffffff;
 }
 
@@ -17,6 +17,8 @@
   background-color: #ffffff;
   color: #212529;
 }
+
+
 .required-char {
   color: red; /* Adjust the color as needed for this message */
 }
@@ -55,13 +57,6 @@
   background-color: #adafb1;
   color: #54575a;
 }
-
-/* .btn-results,
-.btn-results:hover,
-.btn-results:active {
-  background-color: black;
-  color: white;
-} */
 
 .btn.active {
   background-color: black;
@@ -204,7 +199,7 @@
 }
 
 .nav-link {
-  color: black; /* Set the text color to white */
+  color: black; 
 }
 
 .bold-title {
@@ -246,5 +241,4 @@
   text-align: center;
   padding: 5px;
 }
-
 

@@ -407,6 +407,15 @@ app.get("/similarItems/:itemId", async (req, res) => {
     ).data;
     let resData = {};
     // res.send(resApiData);
+
+    if(resApiData.getSimilarItemsResponse.ack === "Failure" || !resApiData.getSimilarItemsResponse.itemRecommendations){
+      resData.ack = "Failure";
+      resData.items = [];
+      res.send(resData);
+      return;
+    }
+
+    resData.ack = "Success";
     let items = [];
 
     let itemsList = resApiData.getSimilarItemsResponse.itemRecommendations.item;

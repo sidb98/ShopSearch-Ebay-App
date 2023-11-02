@@ -45,10 +45,10 @@ export default function ProductsTab({ item }) {
         <table className="w-100">
           <tbody>
             <tr className="row-odd">
-              <td className="col-5 bold-title ps-4 pt-2 pb-2 ">
+              <td className="col-12 col-md-5 bold-title ps-md-4 py-2 d-block d-sm-table-cell">
                 Product Images
               </td>
-              <td className="col-3 pt-2 pb-2">
+              <td className="col-12 col-md-3 py-2 d-block d-sm-table-cell">
                 <button
                   onClick={openImageModal}
                   style={{
@@ -64,22 +64,22 @@ export default function ProductsTab({ item }) {
             </tr>
             {productDetails.Price !== null && (
               <tr className="row-even">
-                <td className="col-5 bold-title ps-4 pt-2 pb-2">Price</td>
-                <td className="col-3 pt-2 pb-2">{productDetails.Price}</td>
+                <td className="col-12 col-md-5 bold-title ps-md-4 py-2 d-block d-sm-table-cell">Price</td>
+                <td className="col-12 col-md-3 py-2 d-block d-sm-table-cell">{productDetails.Price}</td>
               </tr>
             )}
             {productDetails.Location !== null && (
               <tr className="row-odd">
-                <td className="col-5 bold-title ps-4 pt-2 pb-2">Location</td>
-                <td className="col-3 pt-2 pb-2">{productDetails.Location}</td>
+                <td className="col-12 col-md-5 bold-title ps-md-4 py-2 d-block d-sm-table-cell">Location</td>
+                <td className="col-12 col-md-3 py-2 d-block d-sm-table-cell">{productDetails.Location}</td>
               </tr>
             )}
             {productDetails.Return !== null && (
               <tr className="row-even">
-                <td className="col-5 bold-title ps-4 pt-2 pb-2">
+                <td className="col-12 col-md-5 bold-title ps-md-4 py-2 d-block d-sm-table-cell">
                   Return Policy
                 </td>
-                <td className="col-3 pt-2 pb-2">{productDetails.Return}</td>
+                <td className="col-12 col-md-3 py-2 d-block d-sm-table-cell">{productDetails.Return}</td>
               </tr>
             )}
             {productDetails.ItemSpecs && // Check if ItemSpecs is not null or undefined
@@ -88,8 +88,8 @@ export default function ProductsTab({ item }) {
                   key={key}
                   className={index % 2 !== 0 ? "row-even" : "row-odd"}
                 >
-                  <td className="col-5 bold-title ps-4 pt-2 pb-2">{key}</td>
-                  <td className="col-3 pt-2 pb-2">
+                  <td className="col-12 col-md-5 bold-title ps-md-4 py-2 d-block d-sm-table-cell">{key}</td>
+                  <td className="col-12 col-md-3 py-2 d-block d-sm-table-cell">
                     {productDetails.ItemSpecs[key]}
                   </td>
                 </tr>

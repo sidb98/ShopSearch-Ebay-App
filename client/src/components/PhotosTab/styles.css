@@ -5,6 +5,12 @@
   break-inside: avoid;
 }
 
+@media (max-width: 767px) {  /* or another breakpoint of your choice */
+  .photo-grid {
+    column-count: 1;
+  }
+}
+
 .photo-item {
   display: inline-block;
   width: 100%;
