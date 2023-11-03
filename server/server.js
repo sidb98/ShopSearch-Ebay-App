@@ -153,7 +153,7 @@ app.get("/search", async (req, res) => {
 
   let itemFilterIdx = 1;
 
-  // TODO: Fix cateogryId
+
   if (query.category !== "all") reqParams["categoryId"] = query.category;
 
   reqParams["buyerPostalCode"] = query.zipcode;
@@ -196,7 +196,7 @@ app.get("/search", async (req, res) => {
     itemFilterIdx++;
   }
 
-  console.log(reqParams);
+  // console.log(reqParams);
 
   try {
     let response = await axios.get(url, { params: reqParams });
