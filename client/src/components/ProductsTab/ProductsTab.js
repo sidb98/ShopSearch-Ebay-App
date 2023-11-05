@@ -18,7 +18,7 @@ export default function ProductsTab({ item }) {
 
   useEffect(() => {
     axios
-      .get(`/singleItem/${item.itemId}`)
+      .get(`/api/singleItem/${item.itemId}`)
       .then((response) => {
         setProductDetails(response.data);
         setLoadingProgress(100);

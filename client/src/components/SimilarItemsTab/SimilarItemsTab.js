@@ -10,7 +10,7 @@ export default function SimilarItemsTab({ item }) {
 
   useEffect(() => {
     axios
-      .get(`/similarItems/${item.itemId}`)
+      .get(`/api/similarItems/${item.itemId}`)
       .then((response) => {
         setSimilarItems(response.data.items);
         setOriginalItems(response.data.items);

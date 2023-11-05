@@ -8,7 +8,7 @@ const WishlistProvider = ({ children }) => {
 
   useEffect(() => {
     axios
-      .get("/getKeys")
+      .get("/api/getKeys")
       .then((response) => {
         setWishlist(response.data);
       })
@@ -21,7 +21,7 @@ const WishlistProvider = ({ children }) => {
   // Function to add an item to the wishlist
   const addItemToWishlist = async (item) => {
     try {
-      await axios.post("/favorite", {
+      await axios.post("/api/favorite", {
         _id: item.itemId,
         image: item.image,
         title: item.title,
@@ -38,7 +38,7 @@ const WishlistProvider = ({ children }) => {
   // Function to remove an item from the wishlist
   const removeItemFromWishlist = async (itemId) => {
     try {
-      await axios.delete(`/favorite/${itemId}`);
+      await axios.delete(`/api/favorite/${itemId}`);
       setWishlist((prevWishlist) =>
         prevWishlist.filter((item) => item.itemId !== itemId)
       );

@@ -29,7 +29,7 @@ async function connectToMongo() {
 
 connectToMongo();
 // MongoDB API endpoints
-app.post("/favorite", async (req, res) => {
+app.post("/api/favorite", async (req, res) => {
   try {
     const { _id, image, title, price, shipping } = req.body;
     const newFavourite = new favouriteModel({
@@ -47,7 +47,7 @@ app.post("/favorite", async (req, res) => {
   }
 });
 
-app.delete("/favorite/:id", async (req, res) => {
+app.delete("/api/favorite/:id", async (req, res) => {
   try {
     const { id } = req.params;
     await favouriteModel.findByIdAndDelete(id);
@@ -58,7 +58,7 @@ app.delete("/favorite/:id", async (req, res) => {
   }
 });
 
-app.get("/getKeys", async (req, res) => {
+app.get("/api/getKeys", async (req, res) => {
   try {
     const favoriteItems = await favouriteModel.find(
       {},
@@ -80,7 +80,7 @@ app.get("/getKeys", async (req, res) => {
 });
 
 // Google API endpoints
-app.get("/photos", async (req, res) => {
+app.get("/api/photos", async (req, res) => {
   let query = req.query;
   let url = `https://www.googleapis.com/customsearch/v1`;
   let reqParams = {
@@ -109,7 +109,7 @@ app.get("/photos", async (req, res) => {
 });
 
 //GeoLocation API endpoints
-app.get("/geolocation", async (req, res) => {
+app.get("/api/geolocation", async (req, res) => {
   let query = req.query;
   let startsWith = query.startsWith;
   let url = `http://api.geonames.org/postalCodeSearchJSON`;
@@ -135,9 +135,8 @@ app.get("/geolocation", async (req, res) => {
 });
 
 // Ebay API endpoints
-app.get("/search", async (req, res) => {
+app.get("/api/search", async (req, res) => {
   let query = req.query;
-  console.log(query);
 
   let url = `https://svcs.ebay.com/services/search/FindingService/v1`;
   let reqParams = {
@@ -319,7 +318,7 @@ app.get("/search", async (req, res) => {
   }
 });
 
-app.get("/singleItem/:itemId", async (req, res) => {
+app.get("/api/singleItem/:itemId", async (req, res) => {
   const oauthToken = new OAuthToken(ebayAppId, ebayCertId);
 
   let accessToken = await oauthToken.getApplicationToken();
@@ -378,7 +377,7 @@ app.get("/singleItem/:itemId", async (req, res) => {
   }
 });
 
-app.get("/similarItems/:itemId", async (req, res) => {
+app.get("/api/similarItems/:itemId", async (req, res) => {
   const oauthToken = new OAuthToken(ebayAppId, ebayCertId);
 
   let accessToken = await oauthToken.getApplicationToken();

@@ -50,7 +50,7 @@ export default function SearchhtmlForm() {
   const fetchZipcodes = (inputValue) => {
 
     axios
-      .get(`/geolocation?startsWith=${inputValue}`)
+      .get(`/api/geolocation?startsWith=${inputValue}`)
       .then((response) => {
         const options = response.data.map((zipcode) => ({
           value: zipcode,
@@ -132,7 +132,7 @@ export default function SearchhtmlForm() {
       setLoading(true);
       setSearchSubmitted(true);
 
-      const response = await axios.get("/search", {
+      const response = await axios.get("/api/search", {
         params: urlJson,
       });
       console.log(response.data);
