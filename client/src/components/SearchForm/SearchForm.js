@@ -79,6 +79,7 @@ export default function SearchhtmlForm() {
     setItems([]);
     setView("Results");
     setSearchSubmitted(false);
+    setZipcodeOptions([]);
   };
 
   const handleSubmit = async (event) => {
@@ -366,6 +367,7 @@ export default function SearchhtmlForm() {
             <div className="col-sm-10" id="location-div">
               <div className="col-sm-7">
                 <Select
+                  key={`select_key_${formData.Zipcode || 'empty'}`}     //using https://stackoverflow.com/questions/50412843/how-to-programmatically-clear-reset-react-select
                   value={zipcodeOptions.find(
                     (option) => option.value === formData.Zipcode
                   )}

@@ -5,7 +5,6 @@ import cors from "cors";
 import OAuthToken from "./ebay_oauth_token.js";
 import mongoose from "mongoose";
 import favouriteModel from "./favouriteModel.js";
-import path from "path";
 
 const app = express();
 app.use(cors());
@@ -29,11 +28,7 @@ async function connectToMongo() {
 }
 
 
-app.use(express.static(path.join(__dirname, '../client/build')));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/../client/build/index.html'));
-});
 
 connectToMongo();
 // MongoDB API endpoints

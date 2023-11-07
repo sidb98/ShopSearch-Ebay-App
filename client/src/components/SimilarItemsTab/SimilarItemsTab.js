@@ -63,9 +63,6 @@ export default function SimilarItemsTab({ item }) {
     window.open(link, "_blank");
   }
 
-
-  // TODO: Fix the sorting behvaiour and the title value stack
-  // TODO: Display No records found if no similar items are found
   return (
     <div className="container">
       <div className="sorting-controls d-flex flex-column flex-md-row my-3">
@@ -89,7 +86,7 @@ export default function SimilarItemsTab({ item }) {
           <option value="desc">Descending</option>
         </select>
       </div>
-      {similarItems.length > 0 && (
+      {similarItems.length > 0 ? (
         <div className="similar-items ">
           {similarItems
             .slice(0, showAllItems ? similarItems.length : 5)
@@ -125,6 +122,8 @@ export default function SimilarItemsTab({ item }) {
               </div>
             ))}
         </div>
+      ) :(
+        <p className="no-result-message">No records</p>
       )}
 
       {similarItems.length > 5 && (
