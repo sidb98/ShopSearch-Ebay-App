@@ -11,7 +11,7 @@ export default function SingleItem({ item }) {
   const [activeTab, setActiveTab] = useState("products");
   const { wishlist, addItemToWishlist, removeItemFromWishlist } = useWishlist();
 
-  // “Add a method that shares a link to facebook in a new tab” prompt (5 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+  // “Add a method that shares a link to facebook in a new tab” prompt (5 line). ChatGPT, 28 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
 
   const handleFacebookShare = () => {
     const link = item.link;
@@ -21,7 +21,7 @@ export default function SingleItem({ item }) {
     window.open(facebookShareURL, "Facebook Share", "width=600,height=400");
   };
 
-  // “How add and remove items from wishlist context” prompt (10 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+  // “How add and remove items from wishlist context” prompt (10 line). ChatGPT, 14 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
 
   const isItemInWishlist = (itemId) =>
     wishlist.some((item) => item.itemId === itemId);
@@ -43,7 +43,7 @@ export default function SingleItem({ item }) {
     setActiveTab(tab);
   };
 
-  // “Write JSX to create 5 tabs as components to that i can display relevant content of each tab” prompt (20 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+  // “Write JSX to create 5 tabs as components to that i can display relevant content of each tab” prompt (20 line). ChatGPT, 15 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
 
   return (
     <div className="container mb-5">

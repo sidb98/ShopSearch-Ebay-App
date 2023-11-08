@@ -42,7 +42,7 @@
   border: black 10px solid;
 }
 
-/* "Write CSS so that the control buttons are at the middle of the image" prompt (30 lines) ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.*/
+/* "Write CSS so that the control buttons are at the middle of the image" prompt (30 lines) ChatGPT, 25 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.*/
 
 .controls {
   position: absolute;

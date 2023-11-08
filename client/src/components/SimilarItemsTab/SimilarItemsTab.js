@@ -27,7 +27,7 @@ export default function SimilarItemsTab({ item }) {
   };
 
   // “Write code to sort the items in similarItems state in following categories default, productname, 
-  // daysleft, price, shippingcost” prompt (10 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+  // daysleft, price, shippingcost” prompt (10 line). ChatGPT, 17 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
 
   const handleSortCriteriaChange = (event) => {
     setSortCriteria(event.target.value);
@@ -66,7 +66,7 @@ export default function SimilarItemsTab({ item }) {
   };
 
  
-  // "Add a show more and show less button that initially shows only 5 items" prompt (5 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+  // "Add a show more and show less button that initially shows only 5 items" prompt (5 line). ChatGPT, 14 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
   return (
     <div className="container">
       <div className="sorting-controls d-flex flex-column flex-md-row my-3">

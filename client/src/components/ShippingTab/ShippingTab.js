@@ -11,8 +11,8 @@ export default function ShippingTab({ item }) {
   };
   console.log(item);
 
-  // "How to skip printing the key value pair if the value is null or N/A” prompt (5 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
-  // “How to display tick or cross when the value is true or false for expeditedShipping, oneDayShipping, returnsAccepted” prompt (5 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+  // "How to skip printing the key value pair if the value is null or N/A” prompt (5 line). ChatGPT, 17 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
+  // “How to display tick or cross when the value is true or false for expeditedShipping, oneDayShipping, returnsAccepted” prompt (5 line). ChatGPT, 17 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
 
   return (
     <div className="table-responsive container">

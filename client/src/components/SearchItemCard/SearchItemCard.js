@@ -12,7 +12,7 @@ export default function SearchItemCard({ items }) {
   const isItemInWishlist = (itemId) =>
     wishlist.some((item) => item.itemId === itemId);
 
-  // "how to use wishlist context to add and remove items from wishlist" prompt (5 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+  // "how to use wishlist context to add and remove items from wishlist" prompt (5 line). ChatGPT, 8 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
 
   const handleWishlistClick = async (item) => {
     const itemId = item.itemId;
@@ -41,7 +41,7 @@ export default function SearchItemCard({ items }) {
     setSelectedItem(null);
   };
 
-  // "Add pagination to the table such that each page shows 10 items" prompt (11 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+  // "Add pagination to the table such that each page shows 10 items" prompt (11 line). ChatGPT, 13 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
   const totalPages = Math.ceil(items.length / itemsPerPage);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -52,7 +52,7 @@ export default function SearchItemCard({ items }) {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-  // "How to show details of the selected row instead of the table when i click on the item" prompt (13 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+  // "How to show details of the selected row instead of the table when i click on the item" prompt (13 line). ChatGPT, 15 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
   const renderViewSingleItem = (selectedItem) => {
     return (
       <div>
@@ -87,13 +87,13 @@ export default function SearchItemCard({ items }) {
                 key={item.itemId}
                 onClick={() => handleItemClick(item)}
                 className={
-                  index % 2 === 0 ? "row-even row-hover" : "row-odd row-hover" //"Make the rows alternate in color" prompt (1 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+                  index % 2 === 0 ? "row-even row-hover" : "row-odd row-hover" //"Make the rows alternate in color" prompt (1 line). ChatGPT, 29 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
                 }
               >
                 <td className="number-column">{startIndex + index + 1}</td>
                 <td className="image-column">
                   <a
-                    href={item.image} // "how to open image in new tab when clicked" prompt (1 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+                    href={item.image} // "how to open image in new tab when clicked" prompt (1 line). ChatGPT, 19 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -107,7 +107,7 @@ export default function SearchItemCard({ items }) {
                 </td>
                 <td className="title-column text-primary">
                   <span className="ellipsis-text" title={item.title}>  
-                    {item.title.length > 32   // "How to make the title of the item in the table to be truncated if it is too long" prompt (2 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+                    {item.title.length > 32   // "How to make the title of the item in the table to be truncated if it is too long" prompt (2 line). ChatGPT, 23 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
                       ? item.title.substring(0, 40) + "..."
                       : item.title}
                   </span>
@@ -127,7 +127,7 @@ export default function SearchItemCard({ items }) {
                         : ""
                     }`}
                     onClick={(e) => {
-                      // "Prevent the click on the button from propagating to the div" prompt (1 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+                      // "Prevent the click on the button from propagating to the div" prompt (1 line). ChatGPT, 6 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
                       e.stopPropagation();
                       handleWishlistClick(item);
                     }}

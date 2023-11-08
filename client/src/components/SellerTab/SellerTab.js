@@ -36,9 +36,9 @@ export default function SellerTab({ item }) {
                 <td className="col-12 col-md-5 bold-title ps-md-4 py-2 d-block d-sm-table-cell">
                   {name}
                 </td>{" "}
-                {/* "How to make the table responsive such that key and value are stacked when on smaller screen using bootstrap" prompt (2 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat. */}
+                {/* "How to make the table responsive such that key and value are stacked when on smaller screen using bootstrap" prompt (2 line). ChatGPT, 24 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat. */}
                 <td className="col-12 col-md-3 py-2 d-block d-sm-table-cell">
-                  {key === "buyProductAt" ? ( // "How to make a clickable link such that it redirects to url stored in buyProductAt" prompt (2 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+                  {key === "buyProductAt" ? ( // "How to make a clickable link such that it redirects to url stored in buyProductAt" prompt (2 line). ChatGPT, 17 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
                     <a href={value} target="_blank" rel="noopener noreferrer">
                       Store
                     </a>
@@ -66,13 +66,13 @@ export default function SellerTab({ item }) {
                     </span>
                   ) : key === "popularity" ? (
                     <div style={{ width: "40px", height: "40px" }}>
-                      <CircularProgressbar // “How to use react-circular porgressbar such that the center has the value” prompt (7 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+                      <CircularProgressbar // “How to use react-circular porgressbar such that the center has the value” prompt (7 line). ChatGPT, 29 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
                         value={value}
                         text={`${value}`}
                         styles={{
                           root: {},
                           path: {
-                            stroke: `#117811`, // " How to make the progress bar color green" prompt (3 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+                            stroke: `#117811`, // " How to make the progress bar color green" prompt (3 line). ChatGPT, 29 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
                             strokeLinecap: "butt",
                             transition: "stroke-dashoffset 0.5s ease 0s",
                           },

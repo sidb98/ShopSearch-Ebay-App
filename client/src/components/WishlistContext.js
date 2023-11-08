@@ -3,7 +3,7 @@ import axios from "axios";
 
 const WishlistContext = createContext();
 
-// “How to conver tthis wishlist state to context ” prompt (15 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+// “How to conver tthis wishlist state to context ” prompt (15 line). ChatGPT, 13 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
 
 const WishlistProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
@@ -20,7 +20,7 @@ const WishlistProvider = ({ children }) => {
       });
   }, []);
 
-  // “How to add items to wishlist context” prompt (5 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+  // “How to add items to wishlist context” prompt (5 line). ChatGPT, 13 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
 
   // Function to add an item to the wishlist
   const addItemToWishlist = async (item) => {
@@ -38,7 +38,7 @@ const WishlistProvider = ({ children }) => {
       console.log(error.response);
     }
   };
-  // “How to remove items from wishlist context” prompt (5 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+  // “How to remove items from wishlist context” prompt (5 line). ChatGPT, 13 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
 
   // Function to remove an item from the wishlist
   const removeItemFromWishlist = async (itemId) => {

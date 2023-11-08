@@ -29,7 +29,7 @@ async function connectToMongo() {
 
 connectToMongo();
 
-// “How to send data to MongoDB using a model” prompt (5 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+// “How to send data to MongoDB using a model” prompt (5 line). ChatGPT, 11 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
 
 // MongoDB API endpoints
 app.post("/api/favorite", async (req, res) => {
@@ -50,7 +50,7 @@ app.post("/api/favorite", async (req, res) => {
   }
 });
 
-// “How to deelete data from MongoDB ” prompt (3 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+// “How to delete data from MongoDB ” prompt (3 line). ChatGPT, 11 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
 
 app.delete("/api/favorite/:id", async (req, res) => {
   try {
@@ -63,7 +63,7 @@ app.delete("/api/favorite/:id", async (req, res) => {
   }
 });
 
-// “How to fetch all the keys from monogodb" prompt (6 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+// “How to fetch all the keys from monogodb" prompt (6 line). ChatGPT, 11 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
 
 app.get("/api/getKeys", async (req, res) => {
   try {
@@ -217,7 +217,7 @@ app.get("/api/search", async (req, res) => {
       return;
     }
 
-    // “How to handle missing json keys and send default value "N/A"” prompt (10 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+    // “How to handle missing json keys and send default value "N/A"” prompt (10 line). ChatGPT, 11 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
 
     itemsList.forEach((item, idx) => {
       let singleItem = {};
@@ -330,7 +330,7 @@ app.get("/api/singleItem/:itemId", async (req, res) => {
   let itemId = req.params.itemId;
   let url = `https://open.api.ebay.com/shopping`;
 
-// “How to add headers to axios.get call” prompt (3 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+// “How to add headers to axios.get call” prompt (3 line). ChatGPT, 11 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
 
   let headers = {
     "X-EBAY-API-IAF-TOKEN": accessToken,

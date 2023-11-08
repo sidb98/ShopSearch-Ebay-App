@@ -31,17 +31,17 @@ export default function SearchhtmlForm() {
   const [loading, setLoading] = useState(false);
   const [zipcodeOptions, setZipcodeOptions] = useState([]);
 
-  // "Change state of dropdown when selected" prompt (3 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+  // "Change state of dropdown when selected" prompt (3 line). ChatGPT, 8 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
   const handleCategoryChange = (event) => {
     const { name, value } = event.target;
     setFormData((formData) => ({ ...formData, [name]: value }));
   };
-  // "Change state of checkbox when selected" prompt (3 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+  // "Change state of checkbox when selected" prompt (3 line). ChatGPT, 8 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
   const handleCheckboxChange = (event) => {
     const { name } = event.target;
     setFormData((formData) => ({ ...formData, [name]: !formData[name] }));
   };
-  // "How to render text when it is being typed in the textbox" prompt (3 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+  // "How to render text when it is being typed in the textbox" prompt (3 line). ChatGPT, 8 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
 
   const handleTextboxChange = (event) => {
     const { name, value } = event.target;
@@ -51,7 +51,7 @@ export default function SearchhtmlForm() {
   const fetchZipcodes = (inputValue) => {
     axios
       .get(`/api/geolocation?startsWith=${inputValue}`)
-      //  "How to update the value of react-select when the data is fetched from api call" prompt (3 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+      //  "How to update the value of react-select when the data is fetched from api call" prompt (3 line). ChatGPT, 10 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
       .then((response) => {
         const options = response.data.map((zipcode) => ({
           value: zipcode,
@@ -68,7 +68,7 @@ export default function SearchhtmlForm() {
     setFormData({ ...formData, Zipcode: selectedOption.value });
   };
 
-  // "Handle state change of radio buttons" prompt (3 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+  // "Handle state change of radio buttons" prompt (3 line). ChatGPT, 8 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
   const handleRadioChange = (event) => {
     const { name, value } = event.target;
     setFormData((formData) => ({ ...formData, [name]: value }));
@@ -150,7 +150,7 @@ export default function SearchhtmlForm() {
     if (searchSubmitted) {
       if (loading) {
         return (
-          // "How to use Loading Bar component when the data is being fetched from api call" prompt (6 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+          // "How to use Loading Bar component when the data is being fetched from api call" prompt (6 line). ChatGPT, 10 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
           <div className="d-flex justify-content-center align-items-center mt-3">
             <LoadingBar
               loadingProgress={loadingProgress}
@@ -162,7 +162,7 @@ export default function SearchhtmlForm() {
         return (
           <div>
             {searchSubmitted && items.length === 0 ? (
-              <p className="no-result-message">No Results</p> //"Display no results message when there are no results" prompt (2 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+              <p className="no-result-message">No Results</p> //"Display no results message when there are no results" prompt (2 line). ChatGPT, 17 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
             ) : (
               <SearchItemCard items={items} />
             )}
@@ -186,7 +186,7 @@ export default function SearchhtmlForm() {
         <div className="col-md-8 offset-md-2">
           <form id="serch-htmlForm" onSubmit={handleSubmit} className="my-4">
             {" "}
-            {/*"How to makle my form bootsrap friendly" prompt (10 line) ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.*/}
+            {/*"How to makle my form bootsrap friendly" prompt (10 line) ChatGPT, 25 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.*/}
             <h1>Product Search</h1>
             <div className="form-group row my-3">
               <label htmlFor="Keyword" className="col-sm-2 col-form-label">
@@ -213,7 +213,7 @@ export default function SearchhtmlForm() {
               <label htmlFor="Category" className="col-sm-2 col-form-label">
                 Category
               </label>
-              <div className="col-sm-2">
+              <div className="col-sm-4">
                 <select
                   id="Category"
                   name="Category"
@@ -376,7 +376,7 @@ export default function SearchhtmlForm() {
                     onChange={handleSelectChange}
                     onInputChange={fetchZipcodes}
                     options={zipcodeOptions}
-                    isDisabled={formData.From !== "Zipcode"} //"Disable the zipcode textbox when the current location is selected" prompt (3 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+                    isDisabled={formData.From !== "Zipcode"} //"Disable the zipcode textbox when the current location is selected" prompt (3 line). ChatGPT, 9 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.
                     placeholder="Enter Zipcode"
                   />
                   {formData.From === "Zipcode" && formData.Zipcode === "" && (
@@ -423,7 +423,7 @@ export default function SearchhtmlForm() {
         </button>
       </div>
       {view === "Results" && renderResultsView()}{" "}
-      {/* "Create two buttons such that default it shows the results page but when i click on wishlist button it shows me wishlist data" prompt (14 lines) ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.*/}
+      {/* "Create two buttons such that default it shows the results page but when i click on wishlist button it shows me wishlist data" prompt (14 lines) ChatGPT, 15 Oct. version, OpenAI, 11 Oct. 2023, chat.openai.com/chat.*/}
       {view === "Wishlist" && renderWishlistView()}
     </div>
   );
