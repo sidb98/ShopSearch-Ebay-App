@@ -23,6 +23,8 @@ const ImageModal = ({ images, isOpen, onClose }) => {
     return null;
   }
 
+  // "Write a image modal component that will be displayed when the user clicks on the product image" prompt (25 lines) ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+
   return (
     <div className="modalBackground">
       <div className="modalContainer">

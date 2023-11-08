@@ -42,32 +42,34 @@
   border: black 10px solid;
 }
 
+/* "Write CSS so that the control buttons are at the middle of the image" prompt (30 lines) ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.*/
+
 .controls {
   position: absolute;
   top: 50%;
   width: 100%;
   transform: translateY(-50%);
-  z-index: 10; /* position controls above the image */
+  z-index: 10;
 }
 
 .controls button {
   background-color: transparent;
   border: none;
-  font-size: 2rem; /* Increased font size for larger arrows */
-  color: white; /* Changed color to white for better visibility */
+  font-size: 2rem; 
+  color: white; 
   cursor: pointer;
 }
 
 .controls button:first-child {
   color: black;
   position: absolute;
-  left: 5px; /* Position left arrow to the left side */
+  left: 5px; 
 }
 
 .controls button:last-child {
   color: black;
   position: absolute;
-  right: 5px; /* Position right arrow to the right side */
+  right: 5px; 
 }
 
 .closeButton {

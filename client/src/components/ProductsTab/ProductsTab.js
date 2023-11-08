@@ -11,7 +11,7 @@ export default function ProductsTab({ item }) {
   const [loading, setLoading] = useState(true);
   const [showImageModal, setShowImageModal] = useState(false);
 
-
+  // "Open ImageModal component when user clicks on View Product Images button" prompt (7 lines) ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
   const openImageModal = () => {
     setShowImageModal(true);
   };
@@ -45,6 +45,7 @@ export default function ProductsTab({ item }) {
         <table className="w-100">
           <tbody>
             <tr className="row-odd">
+              {/* "How to make the key value pair stacked when on a smaller screen using bootstrap" prompt (2 lines) ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat. */}
               <td className="col-12 col-md-5 bold-title ps-md-4 py-2 d-block d-sm-table-cell">
                 Product Images
               </td>
@@ -64,18 +65,21 @@ export default function ProductsTab({ item }) {
             </tr>
             {productDetails.Price !== null && (
               <tr className="row-even">
+              {/* "How to make the key value pair stacked when on a smaller screen using bootstrap" prompt (2 lines) ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat. */}
                 <td className="col-12 col-md-5 bold-title ps-md-4 py-2 d-block d-sm-table-cell">Price</td>
                 <td className="col-12 col-md-3 py-2 d-block d-sm-table-cell">{productDetails.Price}</td>
               </tr>
             )}
             {productDetails.Location !== null && (
               <tr className="row-odd">
+              {/* "How to make the key value pair stacked when on a smaller screen using bootstrap" prompt (2 lines) ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat. */}
                 <td className="col-12 col-md-5 bold-title ps-md-4 py-2 d-block d-sm-table-cell">Location</td>
                 <td className="col-12 col-md-3 py-2 d-block d-sm-table-cell">{productDetails.Location}</td>
               </tr>
             )}
             {productDetails.Return !== null && (
               <tr className="row-even">
+              {/* "How to make the key value pair stacked when on a smaller screen using bootstrap" prompt (2 lines) ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat. */}
                 <td className="col-12 col-md-5 bold-title ps-md-4 py-2 d-block d-sm-table-cell">
                   Return Policy
                 </td>
@@ -97,6 +101,7 @@ export default function ProductsTab({ item }) {
           </tbody>
         </table>
       )}
+      {/* "Open Image Modal when View Products Image is selected" prompt, (5 lines) ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat. */}
       {showImageModal && (
         <ImageModal
           images={productDetails.productImg}

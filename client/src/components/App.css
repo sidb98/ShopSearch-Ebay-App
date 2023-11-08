@@ -6,6 +6,13 @@
   padding: 2rem;
 }
 
+@media (min-width: 768px) {
+  /* This background color will apply only for screens that are at least 768 pixels wide */
+  #main-div {
+    background-color: #212529;
+  }
+}
+
 #serch-htmlForm h1,
 #serch-htmlForm label,
 #serch-htmlForm checkbox,
@@ -37,8 +44,8 @@
   color: black;
   background-image: url("../assest/search.png");
   background-repeat: no-repeat;
-  background-position: 5px center;
-  text-indent: 20px;
+  background-position: center left 10px; /* Adjusted to give space on the left */
+  padding-left: 40px; /* Increased padding to ensure text does not overlap the image */
   border-color: #212529;
 }
 
@@ -48,15 +55,10 @@
   color: black;
   background-image: url("../assest/clear-all.png");
   background-repeat: no-repeat;
-  background-position: 5px center;
-  text-indent: 20px;
+  background-position: center left 10px; /* Adjusted to give space on the left */
+  padding-left: 40px; /* Increased padding to ensure text does not overlap the image */
 }
 
-.btn-search:hover,
-.btn-clear:hover {
-  background-color: #adafb1;
-  color: #54575a;
-}
 
 .btn.active {
   background-color: black;
@@ -221,6 +223,8 @@
 /* ---Loading Bar--- */
 /* ------------ */
 
+/* “How givie loading bar a blue color” prompt (5 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat. */
+
 .loading-bar-container {
   width: 70%;
   height: 20px;
@@ -233,8 +237,8 @@
 
 .loading-bar {
   height: 100%;
-  background-color: #007bff; /* Loading bar color */
-  transition: width 0.3s; /* Add a transition effect for smoother progress */
+  background-color: #007bff; 
+  transition: width 0.3s; 
 }
 
 .loading-text {

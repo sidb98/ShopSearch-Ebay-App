@@ -6,7 +6,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 axios.defaults.baseURL = window.location.protocol +"//"+ window.location.hostname + ":5000";
-// change this for production becuase server and client are on diffrent servers
 
 function App() {
     return (

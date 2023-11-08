@@ -12,6 +12,8 @@ export default function SearchItemCard({ items }) {
   const isItemInWishlist = (itemId) =>
     wishlist.some((item) => item.itemId === itemId);
 
+  // "how to use wishlist context to add and remove items from wishlist" prompt (5 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+
   const handleWishlistClick = async (item) => {
     const itemId = item.itemId;
 
@@ -39,20 +41,18 @@ export default function SearchItemCard({ items }) {
     setSelectedItem(null);
   };
 
-  // Calculate total pages
+  // "Add pagination to the table such that each page shows 10 items" prompt (11 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
   const totalPages = Math.ceil(items.length / itemsPerPage);
 
-  // Calculate the index range for the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
-  // Get the items for the current page
   const currentItems = items.slice(startIndex, endIndex);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-
+  // "How to show details of the selected row instead of the table when i click on the item" prompt (13 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
   const renderViewSingleItem = (selectedItem) => {
     return (
       <div>
@@ -87,13 +87,13 @@ export default function SearchItemCard({ items }) {
                 key={item.itemId}
                 onClick={() => handleItemClick(item)}
                 className={
-                  index % 2 === 0 ? "row-even row-hover" : "row-odd row-hover"
+                  index % 2 === 0 ? "row-even row-hover" : "row-odd row-hover" //"Make the rows alternate in color" prompt (1 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
                 }
               >
                 <td className="number-column">{startIndex + index + 1}</td>
                 <td className="image-column">
                   <a
-                    href={item.image}
+                    href={item.image} // "how to open image in new tab when clicked" prompt (1 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -106,8 +106,8 @@ export default function SearchItemCard({ items }) {
                   </a>
                 </td>
                 <td className="title-column text-primary">
-                  <span className="ellipsis-text" title={item.title}>
-                    {item.title.length > 32
+                  <span className="ellipsis-text" title={item.title}>  
+                    {item.title.length > 32   // "How to make the title of the item in the table to be truncated if it is too long" prompt (2 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
                       ? item.title.substring(0, 40) + "..."
                       : item.title}
                   </span>
@@ -127,7 +127,7 @@ export default function SearchItemCard({ items }) {
                         : ""
                     }`}
                     onClick={(e) => {
-                      // Prevent the click on the button from propagating to the div
+                      // "Prevent the click on the button from propagating to the div" prompt (1 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
                       e.stopPropagation();
                       handleWishlistClick(item);
                     }}

@@ -1,3 +1,5 @@
+/* "Write CSS to create masonary layout where there are 3 columns of equal size" prompt (18 lines) ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat. */
+
 .photo-grid {
   column-count: 3;
   column-gap: 10px;
@@ -5,7 +7,7 @@
   break-inside: avoid;
 }
 
-@media (max-width: 767px) {  /* or another breakpoint of your choice */
+@media (max-width: 767px) {  /* "Modify the css such that when on smaller screen there is only 1 columns" prompt (5 lines) ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat. */
   .photo-grid {
     column-count: 1;
   }

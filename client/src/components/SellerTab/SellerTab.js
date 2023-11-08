@@ -1,9 +1,8 @@
 import React from "react";
 import "material-icons/iconfont/material-icons.css";
 
-import { CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
-
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 export default function SellerTab({ item }) {
   const keyOrder = {
@@ -34,9 +33,12 @@ export default function SellerTab({ item }) {
                 key={key}
                 className={index % 2 === 0 ? "row-even" : "row-odd"}
               >
-                <td className="col-12 col-md-5 bold-title ps-md-4 py-2 d-block d-sm-table-cell">{name}</td>
+                <td className="col-12 col-md-5 bold-title ps-md-4 py-2 d-block d-sm-table-cell">
+                  {name}
+                </td>{" "}
+                {/* "How to make the table responsive such that key and value are stacked when on smaller screen using bootstrap" prompt (2 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat. */}
                 <td className="col-12 col-md-3 py-2 d-block d-sm-table-cell">
-                  {key === "buyProductAt" ? (
+                  {key === "buyProductAt" ? ( // "How to make a clickable link such that it redirects to url stored in buyProductAt" prompt (2 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
                     <a href={value} target="_blank" rel="noopener noreferrer">
                       Store
                     </a>
@@ -63,30 +65,29 @@ export default function SellerTab({ item }) {
                         : "star_border"}
                     </span>
                   ) : key === "popularity" ? (
-                    <div style={{ width: '40px', height: '40px' }}>
-                        <CircularProgressbar
-                            value={value}
-                            text={`${value}`}
-                            styles={{
-                              root: {},
-                              path: {
-                                  stroke: `#117811`,
-                                  strokeLinecap: 'butt',
-                                  transition: 'stroke-dashoffset 0.5s ease 0s',
-                              },
-                              trail: {
-                                  stroke: '#e1e1e1',
-                                  strokeLinecap: 'butt',
-                              },
-                              text: {
-                                  fill: '#FFFFFF',
-                                  fontSize: '32px',
-                              },
-                          }}
-                        />
+                    <div style={{ width: "40px", height: "40px" }}>
+                      <CircularProgressbar // “How to use react-circular porgressbar such that the center has the value” prompt (7 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+                        value={value}
+                        text={`${value}`}
+                        styles={{
+                          root: {},
+                          path: {
+                            stroke: `#117811`, // " How to make the progress bar color green" prompt (3 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+                            strokeLinecap: "butt",
+                            transition: "stroke-dashoffset 0.5s ease 0s",
+                          },
+                          trail: {
+                            stroke: "#e1e1e1",
+                            strokeLinecap: "butt",
+                          },
+                          text: {
+                            fill: "#FFFFFF",
+                            fontSize: "32px",
+                          },
+                        }}
+                      />
                     </div>
-                ) 
-                  : (
+                  ) : (
                     value
                   )}
                 </td>

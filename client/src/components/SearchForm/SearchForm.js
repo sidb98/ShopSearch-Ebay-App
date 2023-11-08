@@ -6,7 +6,6 @@ import SearchItemCard from "../SearchItemCard";
 import WishlistCard from "../WishlistCard";
 import LoadingBar from "../LoadingBar";
 
-
 export default function SearchhtmlForm() {
   const ipinfoToken = process.env.REACT_APP_IPINFO_TOKEN;
 
@@ -32,15 +31,17 @@ export default function SearchhtmlForm() {
   const [loading, setLoading] = useState(false);
   const [zipcodeOptions, setZipcodeOptions] = useState([]);
 
+  // "Change state of dropdown when selected" prompt (3 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
   const handleCategoryChange = (event) => {
     const { name, value } = event.target;
     setFormData((formData) => ({ ...formData, [name]: value }));
   };
-
+  // "Change state of checkbox when selected" prompt (3 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
   const handleCheckboxChange = (event) => {
     const { name } = event.target;
     setFormData((formData) => ({ ...formData, [name]: !formData[name] }));
   };
+  // "How to render text when it is being typed in the textbox" prompt (3 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
 
   const handleTextboxChange = (event) => {
     const { name, value } = event.target;
@@ -48,16 +49,15 @@ export default function SearchhtmlForm() {
   };
 
   const fetchZipcodes = (inputValue) => {
-
     axios
       .get(`/api/geolocation?startsWith=${inputValue}`)
+      //  "How to update the value of react-select when the data is fetched from api call" prompt (3 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
       .then((response) => {
         const options = response.data.map((zipcode) => ({
           value: zipcode,
           label: zipcode,
         }));
         setZipcodeOptions(options);
-        console.log(zipcodeOptions);
       })
       .catch((error) => {
         console.log(error);
@@ -68,6 +68,7 @@ export default function SearchhtmlForm() {
     setFormData({ ...formData, Zipcode: selectedOption.value });
   };
 
+  // "Handle state change of radio buttons" prompt (3 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
   const handleRadioChange = (event) => {
     const { name, value } = event.target;
     setFormData((formData) => ({ ...formData, [name]: value }));
@@ -149,6 +150,7 @@ export default function SearchhtmlForm() {
     if (searchSubmitted) {
       if (loading) {
         return (
+          // "How to use Loading Bar component when the data is being fetched from api call" prompt (6 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
           <div className="d-flex justify-content-center align-items-center mt-3">
             <LoadingBar
               loadingProgress={loadingProgress}
@@ -160,7 +162,7 @@ export default function SearchhtmlForm() {
         return (
           <div>
             {searchSubmitted && items.length === 0 ? (
-              <p className="no-result-message">No Results</p>
+              <p className="no-result-message">No Results</p> //"Display no results message when there are no results" prompt (2 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
             ) : (
               <SearchItemCard items={items} />
             )}
@@ -179,232 +181,232 @@ export default function SearchhtmlForm() {
   };
 
   return (
-    <div className="container mb-5">
-      <div>
-        <form id="serch-htmlForm" onSubmit={handleSubmit} className="my-4">
-          <h1>Product Search</h1>
-          <div className="form-group row my-3">
-            <label htmlFor="Keyword" className="col-sm-2 col-form-label">
-              Keywords<span className="required-char">*</span>
-            </label>
-            <div className="col-sm-6">
-              <input
-                type="text"
-                id="Keyword"
-                name="Keyword"
-                autoComplete="on"
-                value={formData.Keyword}
-                onChange={handleTextboxChange}
-                placeholder="Enter Product Name (eg Iphone 8)"
-                className="form-control"
-                size="10"
-              />
-              {showKeywordError && (
-                <p className="text-danger">Please enter a keyword</p>
-              )}
-            </div>
-          </div>
-
-          <div className="form-group row my-3">
-            <label htmlFor="Category" className="col-sm-2 col-form-label">
-              Category
-            </label>
-            <div className="col-sm-2">
-              <select
-                id="Category"
-                name="Category"
-                value={formData.Category}
-                onChange={handleCategoryChange}
-                className="form-control"
-              >
-                <option value="all">All Categories</option>
-                <option value="550">Art</option>
-                <option value="2984">Baby</option>
-                <option value="267">Books</option>
-                <option value="11450">Clothing, Shoes & Accessories</option>
-                <option value="58058">Computers/Tablets & Networking</option>
-                <option value="26395">Health & Beauty</option>
-                <option value="11233">Music</option>
-                <option value="1249">Video Games & Consoles</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="form-group row my-3">
-            <label className="col-sm-2 col-form-label">Condition</label>
-            <div className="col-sm-10">
-              <div className="form-check form-check-inline square-checkbox">
+    <div className="container mb-5 mt-md-5 mt-sm-0">
+      <div className="row" id="main-div">
+        <div className="col-md-8 offset-md-2">
+          <form id="serch-htmlForm" onSubmit={handleSubmit} className="my-4">
+            {" "}
+            {/*"How to makle my form bootsrap friendly" prompt (10 line) ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.*/}
+            <h1>Product Search</h1>
+            <div className="form-group row my-3">
+              <label htmlFor="Keyword" className="col-sm-2 col-form-label">
+                Keywords<span className="required-char">*</span>
+              </label>
+              <div className="col-sm-6">
                 <input
-                  className="form-check-input"
-                  type="checkbox"
-                  id="New"
-                  name="New"
-                  checked={formData.New}
-                  onChange={handleCheckboxChange}
+                  type="text"
+                  id="Keyword"
+                  name="Keyword"
+                  autoComplete="on"
+                  value={formData.Keyword}
+                  onChange={handleTextboxChange}
+                  placeholder="Enter Product Name (eg Iphone 8)"
+                  className="form-control"
+                  size="10"
                 />
-                <label className="form-check-label" htmlFor="New">
-                  New
-                </label>
-              </div>
-              <div className="form-check form-check-inline square-checkbox">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  id="Used"
-                  name="Used"
-                  checked={formData.Used}
-                  onChange={handleCheckboxChange}
-                />
-                <label className="form-check-label" htmlFor="Used">
-                  Used
-                </label>
-              </div>
-              <div className="form-check form-check-inline square-checkbox">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  id="Unspecified"
-                  name="Unspecified"
-                  checked={formData.Unspecified}
-                  onChange={handleCheckboxChange}
-                />
-                <label className="form-check-label" htmlFor="Unspecified">
-                  Unspecified
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div className="form-group row my-3">
-            <label className="col-sm-2 col-form-label">Shipping Options</label>
-            <div className="col-sm-10">
-              <div className="form-check form-check-inline square-checkbox">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  id="LocalPickup"
-                  name="LocalPickup"
-                  checked={formData.LocalPickup}
-                  onChange={handleCheckboxChange}
-                />
-                <label className="form-check-label" htmlFor="LocalPickup">
-                  Local Pickup
-                </label>
-              </div>
-              <div className="form-check form-check-inline square-checkbox">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  id="FreeShipping"
-                  name="FreeShipping"
-                  checked={formData.FreeShipping}
-                  onChange={handleCheckboxChange}
-                />
-                <label className="form-check-label" htmlFor="FreeShipping">
-                  Free Shipping
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div className="form-group row my-3">
-            <label htmlFor="Distance" className="col-sm-2 col-form-label">
-              Distance(Miles)
-            </label>
-            <div className="col-sm-2">
-              <input
-                type="number"
-                id="Distance"
-                name="Distance"
-                value={formData.Distance}
-                onChange={handleTextboxChange}
-                className="form-control"
-              />
-            </div>
-          </div>
-
-          <div className="form-group row my-3">
-            <label className="col-sm-2 col-form-label">
-              From<span className="required-char">*</span>
-            </label>
-            <div className="col-sm-10" id="location-div">
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  id="Current-Location-Radio"
-                  name="From"
-                  value="Current Location"
-                  checked={formData.From === "Current Location"}
-                  onChange={handleRadioChange}
-                />
-                <label
-                  className="form-check-label"
-                  htmlFor="Current-Location-Radio"
-                >
-                  'Current Location'
-                </label>
-              </div>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  id="Zipcode-Radio"
-                  name="From"
-                  value="Zipcode"
-                  checked={formData.From === "Zipcode"}
-                  onChange={handleRadioChange}
-                />
-                <label className="form-check-label" htmlFor="Zipcode-Radio">
-                  Other. Please specify zip <br />
-                  code:
-                </label>
-              </div>
-            </div>
-          </div>
-          <div className="form-group row my-3">
-            <div className="col-sm-2"></div>
-            <div className="col-sm-10" id="location-div">
-              <div className="col-sm-7">
-                <Select
-                  key={`select_key_${formData.Zipcode || 'empty'}`}     //using https://stackoverflow.com/questions/50412843/how-to-programmatically-clear-reset-react-select
-                  value={zipcodeOptions.find(
-                    (option) => option.value === formData.Zipcode
-                  )}
-                  onChange={handleSelectChange}
-                  onInputChange={fetchZipcodes}
-                  options={zipcodeOptions}
-                  isDisabled={formData.From !== "Zipcode"}
-                  placeholder="Enter Zipcode"
-                />
-                {formData.From === "Zipcode" && formData.Zipcode === "" && (
-                  <p className="text-danger">Please enter a zipcode</p>
+                {showKeywordError && (
+                  <p className="text-danger">Please enter a keyword</p>
                 )}
               </div>
             </div>
-          </div>
-
-          <div className="form-group row">
-            <div>
-              <button
-                type="submit"
-                disabled={
-                  formData.From === "Zipcode" && formData.Zipcode.length !== 5
-                }
-                className=" btn btn-search col-sm-12 col-md-1"
-              >
-                Search
-              </button>
-              <button
-                type="reset"
-                onClick={handleClear}
-                className="btn mx-5 btn-clear col-sm-12 col-md-1"
-              >
-                Clear
-              </button>
+            <div className="form-group row my-3">
+              <label htmlFor="Category" className="col-sm-2 col-form-label">
+                Category
+              </label>
+              <div className="col-sm-2">
+                <select
+                  id="Category"
+                  name="Category"
+                  value={formData.Category}
+                  onChange={handleCategoryChange}
+                  className="form-control"
+                >
+                  <option value="all">All Categories</option>
+                  <option value="550">Art</option>
+                  <option value="2984">Baby</option>
+                  <option value="267">Books</option>
+                  <option value="11450">Clothing, Shoes & Accessories</option>
+                  <option value="58058">Computers/Tablets & Networking</option>
+                  <option value="26395">Health & Beauty</option>
+                  <option value="11233">Music</option>
+                  <option value="1249">Video Games & Consoles</option>
+                </select>
+              </div>
             </div>
-          </div>
-        </form>
+            <div className="form-group row my-3">
+              <label className="col-sm-2 col-form-label">Condition</label>
+              <div className="col-sm-10">
+                <div className="form-check form-check-inline square-checkbox">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="New"
+                    name="New"
+                    checked={formData.New}
+                    onChange={handleCheckboxChange}
+                  />
+                  <label className="form-check-label" htmlFor="New">
+                    New
+                  </label>
+                </div>
+                <div className="form-check form-check-inline square-checkbox">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="Used"
+                    name="Used"
+                    checked={formData.Used}
+                    onChange={handleCheckboxChange}
+                  />
+                  <label className="form-check-label" htmlFor="Used">
+                    Used
+                  </label>
+                </div>
+                <div className="form-check form-check-inline square-checkbox">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="Unspecified"
+                    name="Unspecified"
+                    checked={formData.Unspecified}
+                    onChange={handleCheckboxChange}
+                  />
+                  <label className="form-check-label" htmlFor="Unspecified">
+                    Unspecified
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div className="form-group row my-3">
+              <label className="col-sm-2 col-form-label">
+                Shipping Options
+              </label>
+              <div className="col-sm-10">
+                <div className="form-check form-check-inline square-checkbox">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="LocalPickup"
+                    name="LocalPickup"
+                    checked={formData.LocalPickup}
+                    onChange={handleCheckboxChange}
+                  />
+                  <label className="form-check-label" htmlFor="LocalPickup">
+                    Local Pickup
+                  </label>
+                </div>
+                <div className="form-check form-check-inline square-checkbox">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="FreeShipping"
+                    name="FreeShipping"
+                    checked={formData.FreeShipping}
+                    onChange={handleCheckboxChange}
+                  />
+                  <label className="form-check-label" htmlFor="FreeShipping">
+                    Free Shipping
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div className="form-group row my-3">
+              <label htmlFor="Distance" className="col-sm-2 col-form-label">
+                Distance(Miles)
+              </label>
+              <div className="col-sm-2">
+                <input
+                  type="number"
+                  id="Distance"
+                  name="Distance"
+                  value={formData.Distance}
+                  onChange={handleTextboxChange}
+                  className="form-control"
+                />
+              </div>
+            </div>
+            <div className="form-group row my-3">
+              <label className="col-sm-2 col-form-label">
+                From<span className="required-char">*</span>
+              </label>
+              <div className="col-sm-10" id="location-div">
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    id="Current-Location-Radio"
+                    name="From"
+                    value="Current Location"
+                    checked={formData.From === "Current Location"}
+                    onChange={handleRadioChange}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="Current-Location-Radio"
+                  >
+                    'Current Location'
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    id="Zipcode-Radio"
+                    name="From"
+                    value="Zipcode"
+                    checked={formData.From === "Zipcode"}
+                    onChange={handleRadioChange}
+                  />
+                  <label className="form-check-label" htmlFor="Zipcode-Radio">
+                    Other. Please specify zip <br />
+                    code:
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div className="form-group row my-3">
+              <div className="col-sm-2"></div>
+              <div className="col-sm-10" id="location-div">
+                <div className="col-sm-7">
+                  <Select
+                    key={`select_key_${formData.Zipcode || "empty"}`} //using https://stackoverflow.com/questions/50412843/how-to-programmatically-clear-reset-react-select
+                    value={zipcodeOptions.find(
+                      (option) => option.value === formData.Zipcode
+                    )}
+                    onChange={handleSelectChange}
+                    onInputChange={fetchZipcodes}
+                    options={zipcodeOptions}
+                    isDisabled={formData.From !== "Zipcode"} //"Disable the zipcode textbox when the current location is selected" prompt (3 line). ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.
+                    placeholder="Enter Zipcode"
+                  />
+                  {formData.From === "Zipcode" && formData.Zipcode === "" && (
+                    <p className="text-danger">Please enter a zipcode</p>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="form-group row">
+              <div className="col-12">
+                <button
+                  type="submit"
+                  disabled={
+                    formData.From === "Zipcode" && formData.Zipcode.length !== 5
+                  }
+                  className="btn btn-search"
+                >
+                  Search
+                </button>
+                <button
+                  type="reset"
+                  onClick={handleClear}
+                  className="btn mx-3 btn-clear"
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
       <div className="text-center mt-3">
         <button
@@ -420,7 +422,8 @@ export default function SearchhtmlForm() {
           Wish List
         </button>
       </div>
-      {view === "Results" && renderResultsView()}
+      {view === "Results" && renderResultsView()}{" "}
+      {/* "Create two buttons such that default it shows the results page but when i click on wishlist button it shows me wishlist data" prompt (14 lines) ChatGPT, 4 Sep. version, OpenAI, 11 Sep. 2023, chat.openai.com/chat.*/}
       {view === "Wishlist" && renderWishlistView()}
     </div>
   );
